@@ -38,6 +38,9 @@ importers:
       '@zaydemy/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@zaydemy/email':
+        specifier: workspace:*
+        version: link:../../packages/email
       '@zaydemy/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n

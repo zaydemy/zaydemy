@@ -198,6 +198,119 @@
       "note": "Burada parola yok: her giriş tek kullanımlık kod, geçiş anahtarı ya da bağlı GitHub hesabıyla yapılır. Tanımadığın bir oturum görürsen kapat."
     }
   },
+  "Nav": {
+    "home": "Ana sayfa",
+    "classes": "Sınıflar",
+    "people": "Kişiler",
+    "main": "Ana menü"
+  },
+  "Roles": {
+    "owner": "Sahip",
+    "admin": "Yönetici",
+    "instructor": "Eğitmen",
+    "student": "Öğrenci"
+  },
+  "Statuses": {
+    "active": "Aktif",
+    "passive": "Pasif"
+  },
+  "Common": {
+    "cancel": "Vazgeç",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor…",
+    "close": "Kapat",
+    "all": "Tümü",
+    "forbidden": "Bunu yapmaya yetkin yok.",
+    "notFound": "Artık yok ya da erişimin dışında.",
+    "selected": "{count, plural, one {# seçili} other {# seçili}}"
+  },
+  "Classes": {
+    "title": "Sınıflar",
+    "create": "Yeni sınıf",
+    "createTitle": "Sınıf oluştur",
+    "name": "Ad",
+    "namePlaceholder": "Web Geliştirme 101",
+    "kind": "Tür",
+    "kinds": {
+      "class": "Sınıf",
+      "classHint": "Birlikte ders alan bir grup.",
+      "individual": "Birebir",
+      "individualHint": "Ayrı ayrı ders alan öğrenciler."
+    },
+    "color": "Renk",
+    "colorAuto": "Otomatik",
+    "counts": "{instructors, plural, one {# eğitmen} other {# eğitmen}} · {students, plural, one {# öğrenci} other {# öğrenci}}",
+    "empty": "Henüz sınıf yok.",
+    "emptyStaff": "Henüz bir sınıfa atanmadın.",
+    "archived": "Arşiv",
+    "showArchived": "Arşivdekileri göster",
+    "edit": "Düzenle",
+    "archive": "Arşivle",
+    "unarchive": "Geri al",
+    "delete": "Sil",
+    "deleteConfirm": "“{name}” silinsin mi? Bu geri alınamaz.",
+    "deleteNotEmpty": "Bu sınıfta {members, plural, one {# kişi} other {# kişi}} var. Kurumda kalırlar ama bu sınıfla bağları kalkar. Yine de silinsin mi?",
+    "roster": "Bu sınıftaki kişiler",
+    "rosterEmpty": "Bu sınıfta henüz kimse yok.",
+    "addExisting": "Kişi ekle",
+    "addExistingHint": "Kurumda olup bu sınıfta olmayanlar.",
+    "addExistingEmpty": "Herkes zaten bu sınıfta.",
+    "removeFromClass": "Sınıftan çıkar",
+    "removeConfirm": "{name} bu sınıftan çıkarılsın mı? Diğer sınıfları kalır.",
+    "back": "Tüm sınıflar",
+    "errors": {
+      "invalidName": "Bir ad gir (en fazla 120 karakter).",
+      "invalidColor": "Geçerli bir renk seç."
+    }
+  },
+  "People": {
+    "title": "Kişiler",
+    "add": "Kişi ekle",
+    "addTitle": "Kişi ekle",
+    "name": "Ad",
+    "email": "E-posta adresi",
+    "role": "Rol",
+    "classes": "Sınıflar",
+    "classesHint": "İsteğe bağlı. Eğitmenler kendi sınıflarına öğrenci ekler.",
+    "addSubmit": "Ekle",
+    "added": "{name} eklendi.",
+    "addedNoEmail": "{name} eklendi ama hoş geldin e-postası gönderilemedi. E-posta adresiyle yine giriş yapabilir.",
+    "sendWelcome": "Hoş geldin e-postası gönder",
+    "filters": {
+      "role": "Rol",
+      "status": "Durum",
+      "class": "Sınıf",
+      "search": "Ad ya da e-postayla ara"
+    },
+    "columns": {
+      "name": "Ad",
+      "role": "Rol",
+      "status": "Durum",
+      "classes": "Sınıflar",
+      "joined": "Katılım"
+    },
+    "empty": "Eşleşen kimse yok.",
+    "emptyInstructor": "Sınıflarının öğrencileri burada görünür.",
+    "noClass": "Sınıf yok",
+    "you": "Sen",
+    "bulk": {
+      "addToClass": "Sınıfa ekle",
+      "removeFromClass": "Sınıftan çıkar",
+      "chooseClass": "Sınıf seç",
+      "makePassive": "Pasife al",
+      "makeActive": "Aktif yap",
+      "remove": "Kurumdan çıkar",
+      "removeConfirm": "{count, plural, one {# kişi} other {# kişi}} kurumdan çıkarılsın mı? Hesapları ve diğer kurumları kalır.",
+      "passiveConfirm": "{count, plural, one {# kişi} other {# kişi}} pasife alınsın mı? Geçmişleri kalır ama bu kuruma giriş yapamazlar."
+    },
+    "changeRole": "Rolü değiştir",
+    "errors": {
+      "invalidName": "Bir ad gir.",
+      "invalidEmail": "Geçerli bir e-posta adresi gir.",
+      "invalidClass": "Sınıflardan biri artık yok.",
+      "alreadyMember": "Bu kişi zaten kurumda."
+    }
+  },
   "Email": {
     "signInCode": {
       "subject": "{appName} giriş kodun: {code}",
@@ -207,6 +320,17 @@
       "codeLabel": "Giriş kodu",
       "expiry": "Kod {minutes, plural, one {# dakika} other {# dakika}} geçerli.",
       "ignore": "Giriş yapmaya çalışan sen değilsen bu e-postayı yok sayabilirsin. Bu kod olmadan kimse giriş yapamaz."
+    },
+    "welcome": {
+      "subject": "{organization} kurumuna eklendin",
+      "heading": "{organization} kurumuna hoş geldin",
+      "greeting": "Merhaba {name},",
+      "newAccount": "{inviter}, {appName} üzerinde senin için bir hesap açtı ve seni {organization} kurumuna ekledi.",
+      "existingAccount": "{inviter}, seni {appName} üzerindeki {organization} kurumuna ekledi. Giriş yaptıktan sonra kurumların arasında geçiş yapabilirsin.",
+      "role": "Rolün: {role, select, owner {sahip} admin {yönetici} instructor {eğitmen} other {öğrenci}}.",
+      "howToSignIn": "Bu e-posta adresiyle giriş yap. Parola yok: her girişte sana tek kullanımlık bir kod göndeririz.",
+      "signIn": "Giriş yap",
+      "fallbackLink": "Düğme çalışmazsa bu adresi aç: {url}"
     }
   }
 }

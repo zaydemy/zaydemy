@@ -198,6 +198,119 @@
       "note": "There are no passwords here: every sign-in uses a one-time code, a passkey or a linked GitHub account. If you see a session you do not recognise, sign it out."
     }
   },
+  "Nav": {
+    "home": "Home",
+    "classes": "Classes",
+    "people": "People",
+    "main": "Main"
+  },
+  "Roles": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "instructor": "Instructor",
+    "student": "Student"
+  },
+  "Statuses": {
+    "active": "Active",
+    "passive": "Passive"
+  },
+  "Common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving…",
+    "close": "Close",
+    "all": "All",
+    "forbidden": "You do not have permission to do that.",
+    "notFound": "It no longer exists or is out of your reach.",
+    "selected": "{count, plural, one {# selected} other {# selected}}"
+  },
+  "Classes": {
+    "title": "Classes",
+    "create": "New class",
+    "createTitle": "Create a class",
+    "name": "Name",
+    "namePlaceholder": "Web Development 101",
+    "kind": "Type",
+    "kinds": {
+      "class": "Class",
+      "classHint": "A group taught together.",
+      "individual": "One-to-one",
+      "individualHint": "Students taught separately."
+    },
+    "color": "Colour",
+    "colorAuto": "Automatic",
+    "counts": "{instructors, plural, one {# instructor} other {# instructors}} · {students, plural, one {# student} other {# students}}",
+    "empty": "No classes yet.",
+    "emptyStaff": "You are not assigned to any class yet.",
+    "archived": "Archived",
+    "showArchived": "Show archived",
+    "edit": "Edit",
+    "archive": "Archive",
+    "unarchive": "Restore",
+    "delete": "Delete",
+    "deleteConfirm": "Delete “{name}”? This cannot be undone.",
+    "deleteNotEmpty": "{members, plural, one {# person is} other {# people are}} in this class. They stay in the organization, but their assignment to this class is removed. Delete anyway?",
+    "roster": "People in this class",
+    "rosterEmpty": "Nobody is in this class yet.",
+    "addExisting": "Add people",
+    "addExistingHint": "Members of the organization who are not in this class.",
+    "addExistingEmpty": "Everyone is already in this class.",
+    "removeFromClass": "Remove from class",
+    "removeConfirm": "Remove {name} from this class? Their other classes stay.",
+    "back": "All classes",
+    "errors": {
+      "invalidName": "Enter a name (up to 120 characters).",
+      "invalidColor": "Choose a valid colour."
+    }
+  },
+  "People": {
+    "title": "People",
+    "add": "Add person",
+    "addTitle": "Add a person",
+    "name": "Name",
+    "email": "Email address",
+    "role": "Role",
+    "classes": "Classes",
+    "classesHint": "Optional. Instructors add students to their own classes.",
+    "addSubmit": "Add",
+    "added": "{name} was added.",
+    "addedNoEmail": "{name} was added, but the welcome email could not be sent. They can still sign in with their email address.",
+    "sendWelcome": "Send a welcome email",
+    "filters": {
+      "role": "Role",
+      "status": "Status",
+      "class": "Class",
+      "search": "Search by name or email"
+    },
+    "columns": {
+      "name": "Name",
+      "role": "Role",
+      "status": "Status",
+      "classes": "Classes",
+      "joined": "Joined"
+    },
+    "empty": "Nobody matches.",
+    "emptyInstructor": "Students of your classes appear here.",
+    "noClass": "No class",
+    "you": "You",
+    "bulk": {
+      "addToClass": "Add to class",
+      "removeFromClass": "Remove from class",
+      "chooseClass": "Choose a class",
+      "makePassive": "Make passive",
+      "makeActive": "Make active",
+      "remove": "Remove from organization",
+      "removeConfirm": "Remove {count, plural, one {# person} other {# people}} from the organization? Their accounts stay, and so do their other organizations.",
+      "passiveConfirm": "Make {count, plural, one {# person} other {# people}} passive? They keep their history but cannot sign in to this organization."
+    },
+    "changeRole": "Change role",
+    "errors": {
+      "invalidName": "Enter a name.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidClass": "One of the classes no longer exists.",
+      "alreadyMember": "This person is already in the organization."
+    }
+  },
   "Email": {
     "signInCode": {
       "subject": "{code} is your sign-in code for {appName}",
@@ -207,6 +320,17 @@
       "codeLabel": "Sign-in code",
       "expiry": "The code expires in {minutes, plural, one {# minute} other {# minutes}}.",
       "ignore": "If you did not try to sign in, you can ignore this email. Nobody can sign in without this code."
+    },
+    "welcome": {
+      "subject": "You have been added to {organization}",
+      "heading": "Welcome to {organization}",
+      "greeting": "Hi {name},",
+      "newAccount": "{inviter} created an account for you on {appName} and added you to {organization}.",
+      "existingAccount": "{inviter} added you to {organization} on {appName}. You can switch between your organizations after signing in.",
+      "role": "Your role: {role, select, owner {owner} admin {administrator} instructor {instructor} other {student}}.",
+      "howToSignIn": "Sign in with this email address. There is no password: we send you a one-time code each time.",
+      "signIn": "Sign in",
+      "fallbackLink": "If the button does not work, open this address: {url}"
     }
   }
 }

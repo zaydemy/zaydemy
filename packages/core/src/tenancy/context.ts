@@ -17,13 +17,17 @@ export interface TenantContext {
   readonly [verified]: true;
 }
 
-/** The user is not a member of the organization they tried to act in. */
+/**
+ * The user cannot act in the organization: not a member, or the membership is
+ * passive (`reason`). Callers treat both the same way; the reason is for logs.
+ */
 export class NotAMemberError extends Error {
   constructor(
     readonly userId: string,
     readonly organizationId: string,
+    readonly reason: "not-member" | "passive" = "not-member",
   ) {
-    super(`User ${userId} is not a member of organization ${organizationId}.`);
+    super(`User ${userId} cannot act in organization ${organizationId} (${reason}).`);
     this.name = "NotAMemberError";
   }
 }
@@ -41,13 +45,19 @@ export async function resolveTenantContext(
   { userId, organizationId }: { userId: string; organizationId: string },
 ): Promise<TenantContext> {
   const [row] = await db
-    .select({ role: schema.member.role, platformRole: schema.user.platformRole })
+    .select({
+      role: schema.member.role,
+      status: schema.member.status,
+      platformRole: schema.user.platformRole,
+    })
     .from(schema.member)
     .innerJoin(schema.user, eq(schema.user.id, schema.member.userId))
     .where(and(eq(schema.member.userId, userId), eq(schema.member.organizationId, organizationId)))
     .limit(1);
 
   if (!row) throw new NotAMemberError(userId, organizationId);
+  // A passive member keeps their history but no longer acts here.
+  if (row.status !== "active") throw new NotAMemberError(userId, organizationId, "passive");
   return {
     userId,
     organizationId,

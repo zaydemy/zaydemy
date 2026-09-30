@@ -2,9 +2,12 @@ import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
+import { isStaff } from "@zaydemy/core";
 import { BrandMark } from "@/components/auth/brand-mark";
+import { ShellNav } from "@/components/shell-nav";
 import { getConfig } from "@/lib/server/services";
 import { listMemberships, requireSession } from "@/lib/server/session";
+import { getActiveTenant } from "@/lib/server/tenant";
 import { signOut, switchOrganization } from "./actions";
 
 /** Signed-in shell. A placeholder until the full navigation arrives with the class module. */
@@ -13,21 +16,30 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   const t = await getTranslations("Shell");
   const { appName } = getConfig();
   const memberships = await listMemberships(session.user.id);
-  const activeId =
-    memberships.find((m) => m.organizationId === session.session.activeOrganizationId)
-      ?.organizationId ?? memberships[0]?.organizationId;
+  const tenant = await getActiveTenant();
+  const activeId = tenant?.organization.id;
 
   return (
     <div className="min-h-svh">
       <header className="border-b border-line bg-card">
-        <div className="mx-auto flex h-14 max-w-5xl items-center gap-4 px-4">
+        {/* Phones: brand and account on the first row, navigation scrolls on the second. */}
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2.5 sm:h-14 sm:flex-nowrap sm:py-0">
           <Link href="/" className="flex items-center gap-2.5 rounded-[10px]">
             <BrandMark name={appName} />
             <span className="text-[15px] font-semibold tracking-[-0.015em]">{appName}</span>
           </Link>
 
+          {tenant ? (
+            <div className="order-last -mx-1 w-full overflow-x-auto sm:order-none sm:mx-0 sm:w-auto">
+              <ShellNav staff={isStaff(tenant.context.role)} />
+            </div>
+          ) : null}
+
           {memberships.length > 1 ? (
-            <nav aria-label={t("organization")} className="flex gap-1 overflow-x-auto">
+            <nav
+              aria-label={t("organization")}
+              className="order-last flex w-full gap-1 overflow-x-auto sm:order-none sm:w-auto"
+            >
               {memberships.map((m) => (
                 <form
                   key={m.organizationId}

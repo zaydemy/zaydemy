@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { check, index, integer, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 import { createdAt, id, oneOf, timestamptz, updatedAt } from "./columns";
@@ -51,6 +52,14 @@ export const organization = pgTable(
 export const memberRoles = ["owner", "admin", "instructor", "student"] as const;
 export type MemberRole = (typeof memberRoles)[number];
 
+/**
+ * `passive`: the person left (graduated, paused, moved on). They keep their
+ * history but cannot act in this organization; their other organizations are
+ * unaffected. Blocking someone everywhere is a platform-level ban instead.
+ */
+export const memberStatuses = ["active", "passive"] as const;
+export type MemberStatus = (typeof memberStatuses)[number];
+
 export const member = pgTable(
   "member",
   {
@@ -62,12 +71,16 @@ export const member = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     role: text("role").$type<MemberRole>().notNull().default("student"),
+    status: text("status").$type<MemberStatus>().notNull().default("active"),
+    /** When the membership became passive; retention periods count from here. */
+    leftAt: timestamptz("left_at"),
     createdAt: createdAt(),
   },
   (t) => [
     uniqueIndex("member_organization_user_idx").on(t.organizationId, t.userId),
     index("member_user_idx").on(t.userId),
     check("member_role_check", oneOf(t.role, memberRoles)),
+    check("member_status_check", oneOf(t.status, memberStatuses)),
   ],
 );
 
@@ -115,6 +128,8 @@ export const team = pgTable(
       .references(() => organization.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
     kind: text("kind").$type<TeamKind>().notNull().default("class"),
+    /** `#rrggbb` for the class dot in pickers and lists; derived from the id when null. */
+    color: text("color"),
     /** Archived classes keep their history but leave pickers and active lists. */
     archivedAt: timestamptz("archived_at"),
     /** Maintained by Better Auth; not a source of truth for counts. */
@@ -125,6 +140,7 @@ export const team = pgTable(
   (t) => [
     index("team_organization_idx").on(t.organizationId),
     check("team_kind_check", oneOf(t.kind, teamKinds)),
+    check("team_color_check", sql`${t.color} ~ '^#[0-9a-f]{6}$'`),
   ],
 );
 

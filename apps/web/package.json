@@ -19,6 +19,7 @@
     "@zaydemy/config": "workspace:*",
     "@zaydemy/core": "workspace:*",
     "@zaydemy/db": "workspace:*",
+    "@zaydemy/email": "workspace:*",
     "@zaydemy/i18n": "workspace:*",
     "better-auth": "1.7.6",
     "clsx": "^2.1.1",

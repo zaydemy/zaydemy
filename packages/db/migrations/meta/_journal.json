@@ -29,6 +29,13 @@
       "when": 1790767597898,
       "tag": "0003_auth_setup",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790770578685,
+      "tag": "0004_member_status_team_color",
+      "breakpoints": true
     }
   ]
 }

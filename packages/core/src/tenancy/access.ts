@@ -42,6 +42,7 @@ export async function listAccessibleClasses(tx: TenantTransaction) {
       id: team.id,
       name: team.name,
       kind: team.kind,
+      color: team.color,
       archivedAt: team.archivedAt,
     })
     .from(team)
