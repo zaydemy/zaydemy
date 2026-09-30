@@ -5,6 +5,16 @@ instructors, private academies and schools.
 
 > **Status:** early development. Not ready for production use yet.
 
+## Self-hosting
+
+```sh
+cp .env.example .env   # set APP_URL, APP_SECRET, POSTGRES_PASSWORD and email
+docker compose up -d --build
+```
+
+Postgres is the only required service. Upgrades, backups and restores:
+[docker/README.md](./docker/README.md).
+
 ## Development
 
 Requirements: Node.js 22.12+ (see `.nvmrc`), pnpm 10 and PostgreSQL 16+.
@@ -40,6 +50,7 @@ pnpm build
 | `packages/i18n`          | Locales, message catalogs, locale resolution   |
 | `packages/tsconfig`      | Shared TypeScript configuration                |
 | `packages/eslint-config` | Shared ESLint configuration                    |
+| `docker/`                | Backup and restore scripts, self-hosting docs  |
 | `ee/`                    | Enterprise modules (commercial license)        |
 
 ## Internationalization

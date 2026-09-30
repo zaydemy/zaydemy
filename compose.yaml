@@ -1,0 +1,61 @@
+# zaydemy with Docker Compose: Postgres, a one-off migration step, the app.
+#
+#   cp .env.example .env     # set APP_URL, APP_SECRET, POSTGRES_PASSWORD, email
+#   docker compose up -d --build
+#
+# Migrations run before the app starts and must succeed for it to start:
+# a server on an outdated schema would fail on its first request.
+# Backups: docker/backup.sh (see docker/README.md).
+
+name: zaydemy
+
+x-app: &app
+  build: .
+  image: zaydemy:local
+  env_file: .env
+  environment: &app-environment
+    NODE_ENV: production
+    # The app talks to the bundled Postgres, whatever DATABASE_URL says in .env
+    # (which usually points at localhost for development).
+    DATABASE_URL: postgres://zaydemy:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/zaydemy
+    # Local uploads live on the `uploads` volume, not wherever .env points.
+    STORAGE_LOCAL_DIR: /data/uploads
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zaydemy
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: zaydemy
+    volumes:
+      - postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zaydemy -d zaydemy"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  migrate:
+    <<: *app
+    command: ["node", "db/dist/migrate.mjs"]
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  app:
+    <<: *app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    volumes:
+      - uploads:/data/uploads
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  postgres:
+  uploads:
