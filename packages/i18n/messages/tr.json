@@ -1,7 +1,101 @@
 {
-  "HomePage": {
-    "title": "Neredeyse hazır",
-    "description": "Bu öğrenme platformu kuruluyor. Yakında tekrar göz atın."
+  "Metadata": {
+    "signIn": "Giriş yap",
+    "setup": "Kurulum",
+    "home": "Ana sayfa"
+  },
+  "AuthFrame": {
+    "closedAccess": "Kapalı erişim: hesapları okulun ya da eğitmenin açar.",
+    "setupNote": "İlk kurulum: ilk hesap oluşunca bu sayfa kapanır."
+  },
+  "SignIn": {
+    "email": {
+      "title": "Giriş yap",
+      "description": "Hesabının kayıtlı olduğu e-posta adresini yaz, sana 6 haneli bir giriş kodu gönderelim.",
+      "label": "E-posta adresi",
+      "placeholder": "ornek@eposta.com",
+      "submit": "Kod gönder",
+      "sending": "Kod gönderiliyor…"
+    },
+    "code": {
+      "back": "E-postayı değiştir",
+      "title": "Kodu gir",
+      "description": "Bu adrese 6 haneli bir kod gönderdik. Kod {minutes} dakika geçerli.",
+      "fieldLabel": "6 haneli giriş kodu",
+      "resendIn": "Yeni kod {time} sonra",
+      "resend": "Kodu yeniden gönder",
+      "checkSpam": "Spam klasörüne de bak",
+      "submit": "Doğrula ve gir",
+      "verifying": "Doğrulanıyor…",
+      "signingIn": "Giriş yapılıyor…"
+    },
+    "blocked": {
+      "unknownTitle": "Bu e-posta kayıtlı değil",
+      "unknownBody": "Hesapları okulun ya da eğitmenin açar. Erişimin olması gerekiyorsa seni davet etmelerini iste.",
+      "blockedTitle": "Bu hesap engellenmiş",
+      "blockedBody": "Bu hesapla giriş kapatılmış. Okulunla ya da eğitmeninle iletişime geç.",
+      "tryAnother": "Başka e-posta dene"
+    },
+    "errors": {
+      "invalidEmail": "Geçerli bir e-posta adresi gir.",
+      "botCheckFailed": "Güvenlik doğrulaması geçilemedi. Sayfayı yenileyip tekrar dene.",
+      "rateLimited": "Çok fazla kod istendi. Birkaç dakika sonra tekrar dene.",
+      "deliveryFailed": "Kod gönderilemedi. Biraz sonra tekrar dene; sorun sürerse okulunla iletişime geç.",
+      "invalidCode": "Kod eşleşmedi. {attemptsLeft, plural, one {# deneme hakkın} other {# deneme hakkın}} kaldı.",
+      "expired": "Kodun süresi doldu. Yeni bir kod iste.",
+      "locked": "Çok fazla deneme yapıldı. Yeni bir kod iste.",
+      "unexpected": "Bir şeyler ters gitti. Tekrar dene."
+    }
+  },
+  "Setup": {
+    "title": "{appName} kurulumu",
+    "description": "İlk hesabı oluştur. Bu hesap platform yöneticisi ve kurumunun sahibi olur.",
+    "name": "Adın",
+    "namePlaceholder": "Ada Lovelace",
+    "email": "E-posta adresi",
+    "emailHint": "Buraya gönderilen kodla giriş yapacaksın; e-posta alabilmeli.",
+    "organization": "Kurum adı",
+    "organizationPlaceholder": "Örnek Akademi",
+    "preset": "Ne kuruyorsun?",
+    "presets": {
+      "individual": "Bireysel eğitmen",
+      "individualHint": "Yalnız sen ve öğrencilerin.",
+      "academy": "Akademi",
+      "academyHint": "Birden çok eğitmen, sınıf ve dönem.",
+      "school": "Okul",
+      "schoolHint": "Çok sayıda sınıf ve personel rolü."
+    },
+    "language": "Dil",
+    "submit": "Hesabı oluştur",
+    "submitting": "Oluşturuluyor…",
+    "doneTitle": "Her şey hazır",
+    "doneBody": "Hesabın ve kurumun hazır. {email} adresine gönderilecek kodla giriş yap.",
+    "continue": "Girişe devam et",
+    "errors": {
+      "required": "Bütün alanları doldur.",
+      "invalidEmail": "Geçerli bir e-posta adresi gir.",
+      "alreadySetUp": "Bu kurulum zaten tamamlanmış. Giriş yap."
+    }
+  },
+  "Shell": {
+    "signOut": "Çıkış yap",
+    "organization": "Kurum",
+    "switchTo": "{name} kurumuna geç"
+  },
+  "Home": {
+    "greeting": "Merhaba, {name}",
+    "roleIn": "{organization} kurumunda {role, select, owner {sahipsin} admin {yöneticisin} instructor {eğitmensin} other {öğrencisin}}.",
+    "classesTitle": "Sınıfların",
+    "allClassesTitle": "Tüm sınıflar",
+    "noClasses": "Henüz sınıf yok.",
+    "archived": "Arşiv",
+    "kind": "{kind, select, individual {Birebir} other {Sınıf}}",
+    "noOrganizationTitle": "Henüz bir kurum yok",
+    "noOrganizationBody": "Hesabın hiçbir kurumun üyesi değil. Okulundan ya da eğitmeninden seni eklemesini iste."
+  },
+  "Language": {
+    "en": "English",
+    "tr": "Türkçe"
   },
   "Email": {
     "signInCode": {

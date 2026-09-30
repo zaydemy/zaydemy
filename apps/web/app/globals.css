@@ -1,1 +1,286 @@
 @import "tailwindcss";
+
+/*
+ * Design tokens. Semantic tokens (--t-*) switch with the theme: light on
+ * :root, dark on .dark. Components use the semantic layer (bg-card,
+ * text-muted, border-line), so one class string is right in both themes.
+ * See the design system notes in docs (achromatic: ink greys everywhere,
+ * colour only for status).
+ */
+
+:root {
+  --t-surface: #fafafa;
+  --t-card: #ffffff;
+  --t-line: #e5e5e5;
+  --t-outline: #d4d4d4;
+  --t-body: #171717;
+  --t-muted: #737373;
+  --t-faint: #a3a3a3;
+  --t-subtle: #fafafa;
+  --t-subtle-2: #f5f5f5;
+
+  --t-primary: #171717;
+  --t-primary-hover: #404040;
+  --t-on-primary: #ffffff;
+
+  --t-success: #16a34a;
+  --t-success-soft: #f0fdf4;
+  --t-success-line: #bbf7d0;
+  --t-warning: #d97706;
+  --t-warning-soft: #fff8ed;
+  --t-warning-line: #f3d9ae;
+  --t-danger: #dc2626;
+  --t-danger-soft: #fef2f2;
+  --t-danger-line: #fecaca;
+
+  --t-shadow-card: 0 1px 2px rgb(0 0 0 / 6%);
+  --t-shadow-layer: 0 12px 32px -8px rgb(0 0 0 / 14%), 0 2px 6px rgb(0 0 0 / 6%);
+}
+
+.dark {
+  --t-surface: #0a0a0a;
+  --t-card: #171717;
+  --t-line: rgb(255 255 255 / 10%);
+  --t-outline: rgb(255 255 255 / 17%);
+  --t-body: #fafafa;
+  --t-muted: #a3a3a3;
+  --t-faint: #737373;
+  --t-subtle: rgb(255 255 255 / 4%);
+  --t-subtle-2: rgb(255 255 255 / 7%);
+
+  --t-primary: #fafafa;
+  --t-primary-hover: #d4d4d4;
+  /* On a light fill, text must be dark. */
+  --t-on-primary: #0a0a0a;
+
+  --t-success: #4ade80;
+  --t-success-soft: rgb(74 222 128 / 12%);
+  --t-success-line: rgb(74 222 128 / 28%);
+  --t-warning: #fbbf24;
+  --t-warning-soft: rgb(251 191 36 / 12%);
+  --t-warning-line: rgb(251 191 36 / 28%);
+  --t-danger: #f87171;
+  --t-danger-soft: rgb(248 113 113 / 12%);
+  --t-danger-line: rgb(248 113 113 / 28%);
+
+  --t-shadow-card: 0 1px 2px rgb(0 0 0 / 40%);
+  --t-shadow-layer: 0 12px 32px -8px rgb(0 0 0 / 55%), 0 2px 6px rgb(0 0 0 / 35%);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: var(--t-primary);
+  --color-primary-hover: var(--t-primary-hover);
+  --color-on-primary: var(--t-on-primary);
+
+  --color-surface: var(--t-surface);
+  --color-card: var(--t-card);
+  --color-line: var(--t-line);
+  --color-outline: var(--t-outline);
+  --color-body: var(--t-body);
+  --color-muted: var(--t-muted);
+  --color-faint: var(--t-faint);
+  --color-subtle: var(--t-subtle);
+  --color-subtle-2: var(--t-subtle-2);
+
+  --color-success: var(--t-success);
+  --color-success-soft: var(--t-success-soft);
+  --color-success-line: var(--t-success-line);
+  --color-warning: var(--t-warning);
+  --color-warning-soft: var(--t-warning-soft);
+  --color-warning-line: var(--t-warning-line);
+  --color-danger: var(--t-danger);
+  --color-danger-soft: var(--t-danger-soft);
+  --color-danger-line: var(--t-danger-line);
+
+  --radius-chip: 8px;
+  --radius-card: 12px;
+  --radius-field: 14px;
+
+  --font-sans: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --shadow-card: var(--t-shadow-card);
+  --shadow-layer: var(--t-shadow-layer);
+}
+
+@layer base {
+  html {
+    background: var(--color-surface);
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    background: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Numbers, codes and dates: mono with tabular figures. */
+  .tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * iOS Safari zooms into fields with text under 16px and does not zoom back.
+ * Outside any layer so it beats utility classes like text-[15px] on phones
+ * only; desktop keeps the design sizes.
+ */
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/*
+ * Sign-in stage (components/auth/spotlight.tsx): one card on a dim stage,
+ * lit by a light that follows the pointer. Belongs to the sign-in and setup
+ * pages only; never reuse it in the app shell.
+ */
+@layer components {
+  .spot-stage {
+    --spot-x: 50vw;
+    --spot-y: 40vh;
+    --spot-ground: #dcdcda;
+    /* Small text outside the card: muted is only ~3.5:1 on this ground. */
+    --spot-ink: #525252;
+    --spot-glow: rgb(255 255 255 / 100%);
+    --spot-haze: rgb(255 255 255 / 70%);
+    --spot-beam: rgb(255 255 255 / 55%);
+    --spot-vignette: rgb(0 0 0 / 10%);
+    --spot-edge: rgb(23 23 23 / 70%);
+    --spot-sheen: rgb(0 0 0 / 0%);
+    background: var(--spot-ground);
+  }
+  .dark .spot-stage {
+    --spot-ground: #050505;
+    --spot-ink: #a3a3a3;
+    --spot-glow: rgb(255 255 255 / 17%);
+    --spot-haze: rgb(255 255 255 / 5%);
+    --spot-beam: rgb(255 255 255 / 6%);
+    --spot-vignette: rgb(0 0 0 / 45%);
+    --spot-edge: rgb(255 255 255 / 95%);
+    --spot-sheen: rgb(255 255 255 / 15%);
+  }
+
+  /* Four layers: a cone from above (the light has a source), a bright core,
+     a wide haze and a vignette. */
+  .spot-light {
+    background:
+      radial-gradient(ellipse 38% 95% at var(--spot-x) -12%, var(--spot-beam), transparent 70%),
+      radial-gradient(
+        460px circle at var(--spot-x) var(--spot-y),
+        var(--spot-glow),
+        transparent 70%
+      ),
+      radial-gradient(
+        1200px circle at var(--spot-x) var(--spot-y),
+        var(--spot-haze),
+        transparent 72%
+      ),
+      radial-gradient(ellipse 120% 90% at 50% 45%, transparent 45%, var(--spot-vignette) 100%);
+  }
+  @media (pointer: coarse) {
+    .spot-light {
+      animation: spot-breathe 7s ease-in-out infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spot-light {
+      animation: none;
+    }
+  }
+  @keyframes spot-breathe {
+    0%,
+    100% {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.06);
+    }
+  }
+
+  /* The card's border brightens where the light falls: a masked 1px ring
+     whose background is fixed to the viewport, like the light. */
+  .spot-edge {
+    position: relative;
+  }
+  .spot-edge::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+        340px circle at var(--spot-x) var(--spot-y),
+        var(--spot-edge),
+        transparent 75%
+      )
+      fixed;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+
+  /* In the dark theme the card surface lightens under the light. */
+  .spot-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        300px circle at var(--spot-x) var(--spot-y),
+        var(--spot-sheen),
+        transparent 70%
+      )
+      fixed;
+    pointer-events: none;
+  }
+
+  /* Each typed code digit briefly catches the light. */
+  .otp-lit {
+    animation: otp-lit 0.7s ease-out;
+  }
+  @keyframes otp-lit {
+    from {
+      text-shadow: 0 0 18px var(--spot-edge, currentColor);
+    }
+    to {
+      text-shadow: 0 0 0 transparent;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .otp-lit {
+      animation: none;
+    }
+  }
+
+  .spot-stage ::selection {
+    background: var(--color-body);
+    color: var(--color-card);
+  }
+}
+
+@keyframes otp-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
