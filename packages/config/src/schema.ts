@@ -23,6 +23,7 @@ const port = z.coerce.number().int().min(1).max(65535);
 export const envSchema = z.object({
   NODE_ENV: optional(z.enum(["development", "test", "production"])).default("development"),
 
+  APP_NAME: optional(z.string().trim().min(1).max(60)).default("zaydemy"),
   APP_URL: optional(url),
   APP_SECRET: optional(z.string().min(32, "must be at least 32 characters")),
 

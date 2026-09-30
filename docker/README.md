@@ -14,6 +14,21 @@ Startup order: Postgres → `migrate` (applies migrations once, then exits) →
 invalid, the app exits and its log lists every problem
 (`docker compose logs app`).
 
+## First account
+
+Registration is closed: accounts come from invitations. On a fresh install,
+create the first account (a platform admin) and the first organization:
+
+```sh
+docker compose run --rm app node core/dist/setup.mjs \
+  --name "Ada Lovelace" --email ada@example.com \
+  --organization "Example Academy" --preset academy --locale en
+```
+
+`--preset` is `individual`, `academy` or `school`. The command only works
+while no account exists. Then sign in at `APP_URL` with a code sent to that
+address.
+
 Put a TLS-terminating reverse proxy (Caddy, nginx, Traefik) in front of the
 app and set `APP_URL` to the public HTTPS address.
 

@@ -62,10 +62,21 @@ jobs:
         run: |
           curl -fsS localhost:3000/api/health
           curl -fsS -H 'Accept-Language: tr' localhost:3000/ | grep -q 'lang="tr"'
+          # Auth endpoints: browser-facing ones answer, server-only ones 404.
+          curl -fsS localhost:3000/api/auth/get-session
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'content-type: application/json' \
+            -d '{"email":"a@example.com","type":"sign-in"}' localhost:3000/api/auth/email-otp/send-verification-otp)" = 404
+      - name: First-run setup
+        run: |
+          docker compose run --rm app node core/dist/setup.mjs \
+            --name "CI Admin" --email admin@example.com --organization "CI Setup Academy"
+          # A second run must refuse.
+          ! docker compose run --rm app node core/dist/setup.mjs \
+            --name "Again" --email again@example.com --organization "Again"
       - name: Backup and restore
         run: |
           docker compose exec -T postgres psql -U zaydemy -d zaydemy -c \
-            "insert into organization (name, slug) values ('CI Academy', 'ci-academy')"
+            "update organization set name = 'CI Academy'"
           docker/backup.sh ./backups
           docker compose down -v
           docker compose up -d --wait

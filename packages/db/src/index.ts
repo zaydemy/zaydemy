@@ -6,5 +6,6 @@ export {
   type Executor,
   type Transaction,
 } from "./client";
-export { migrationsFolder, runMigrations } from "./migrate";
+// Migrations: import `@zaydemy/db/migrate` (kept out of this entry point so
+// app bundles never pull in the migration runner and its SQL directory).
 export * as schema from "./schema";

@@ -2,5 +2,16 @@
   "HomePage": {
     "title": "Neredeyse hazır",
     "description": "Bu öğrenme platformu kuruluyor. Yakında tekrar göz atın."
+  },
+  "Email": {
+    "signInCode": {
+      "subject": "{appName} giriş kodun: {code}",
+      "heading": "Giriş kodun",
+      "greeting": "Merhaba {name},",
+      "intro": "{appName} girişini tamamlamak için bu kodu kullan.",
+      "codeLabel": "Giriş kodu",
+      "expiry": "Kod {minutes, plural, one {# dakika} other {# dakika}} geçerli.",
+      "ignore": "Giriş yapmaya çalışan sen değilsen bu e-postayı yok sayabilirsin. Bu kod olmadan kimse giriş yapamaz."
+    }
   }
 }

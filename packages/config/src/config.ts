@@ -31,6 +31,8 @@ export type BotProtectionConfig =
 
 export interface ServerConfig {
   environment: Env["NODE_ENV"];
+  /** Shown in emails, the browser title and passkey prompts. */
+  appName: string;
   /** Public base URL without a trailing slash, e.g. `https://learn.example.com`. */
   appUrl: string;
   /** Signs tokens (upload URLs, and sessions once auth lands). */
@@ -158,6 +160,7 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
 
   return {
     environment: e.NODE_ENV,
+    appName: e.APP_NAME,
     appUrl,
     appSecret,
     databaseUrl: e.DATABASE_URL,

@@ -6,6 +6,7 @@
 # One image, two commands:
 #   node apps/web/server.js      the web server (default)
 #   node db/dist/migrate.mjs     applies database migrations, then exits
+#   node core/dist/setup.mjs     creates the first account (first run only)
 #
 # The build never connects to a database: the same image must run against any
 # database, and migrations are a separate deployment step.
@@ -19,7 +20,7 @@ WORKDIR /repo
 # --- prune: only the packages the web app and the migrator need ---------------
 FROM base AS prune
 COPY . .
-RUN pnpm dlx turbo@2.11.5 prune @zaydemy/web @zaydemy/db --docker
+RUN pnpm dlx turbo@2.11.5 prune @zaydemy/web @zaydemy/db @zaydemy/core --docker
 
 # --- install: dependency layer, cached until a manifest or the lockfile changes -
 FROM base AS install
@@ -31,7 +32,7 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
 FROM install AS build
 COPY --from=prune /repo/out/full/ ./
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm turbo run build --filter=@zaydemy/web --filter=@zaydemy/db
+RUN pnpm turbo run build --filter=@zaydemy/web --filter=@zaydemy/db --filter=@zaydemy/core
 # Git does not track empty directories; the runtime stage copies public/.
 RUN mkdir -p apps/web/public
 
@@ -53,9 +54,10 @@ COPY --from=build --chown=zaydemy:zaydemy /repo/apps/web/.next/standalone ./
 COPY --from=build --chown=zaydemy:zaydemy /repo/apps/web/.next/static ./apps/web/.next/static
 COPY --from=build --chown=zaydemy:zaydemy /repo/apps/web/public ./apps/web/public
 
-# Migrator: a single bundled file and the SQL it applies.
+# Command-line tools: single bundled files (and the SQL the migrator applies).
 COPY --from=build --chown=zaydemy:zaydemy /repo/packages/db/dist/migrate.mjs ./db/dist/migrate.mjs
 COPY --from=build --chown=zaydemy:zaydemy /repo/packages/db/migrations ./db/migrations
+COPY --from=build --chown=zaydemy:zaydemy /repo/packages/core/dist/setup.mjs ./core/dist/setup.mjs
 
 USER zaydemy
 VOLUME ["/data/uploads"]

@@ -2,5 +2,16 @@
   "HomePage": {
     "title": "Almost ready",
     "description": "This learning platform is being set up. Check back soon."
+  },
+  "Email": {
+    "signInCode": {
+      "subject": "{code} is your sign-in code for {appName}",
+      "heading": "Your sign-in code",
+      "greeting": "Hi {name},",
+      "intro": "Use this code to finish signing in to {appName}.",
+      "codeLabel": "Sign-in code",
+      "expiry": "The code expires in {minutes, plural, one {# minute} other {# minutes}}.",
+      "ignore": "If you did not try to sign in, you can ignore this email. Nobody can sign in without this code."
+    }
   }
 }
