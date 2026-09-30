@@ -1,12 +1,17 @@
+import { getDirection } from "@zaydemy/i18n";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-// The `lang` attribute becomes locale-aware when i18n lands; until then the
-// source locale is the only one.
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getLocale();
+
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang={locale} dir={getDirection(locale)}>
+      <body>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
     </html>
   );
 }

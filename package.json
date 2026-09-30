@@ -13,9 +13,11 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "i18n:check": "i18n-check --locales packages/i18n/messages --source en --format next-intl --unused apps/web"
   },
   "devDependencies": {
+    "@lingual/i18n-check": "^0.9.5",
     "prettier": "^3.9.9",
     "turbo": "^2.11.5"
   }
