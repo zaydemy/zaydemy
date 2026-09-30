@@ -7,11 +7,13 @@ instructors, private academies and schools.
 
 ## Development
 
-Requirements: Node.js 22.12+ (see `.nvmrc`) and pnpm 10.
+Requirements: Node.js 22.12+ (see `.nvmrc`), pnpm 10 and PostgreSQL 16+.
 
 ```sh
 pnpm install
-pnpm dev          # web app on http://localhost:3010
+cp .env.example .env   # then point DATABASE_URL and TEST_DATABASE_URL at your server
+pnpm db:migrate
+pnpm dev               # web app on http://localhost:3010
 ```
 
 Checks (the same ones CI runs):
@@ -19,6 +21,7 @@ Checks (the same ones CI runs):
 ```sh
 pnpm format:check
 pnpm i18n:check
+pnpm db:check
 pnpm lint
 pnpm typecheck
 pnpm test
@@ -30,6 +33,7 @@ pnpm build
 | Path                     | Purpose                                      |
 | ------------------------ | -------------------------------------------- |
 | `apps/web`               | Next.js application                          |
+| `packages/db`            | Schema, migrations, test database harness    |
 | `packages/i18n`          | Locales, message catalogs, locale resolution |
 | `packages/tsconfig`      | Shared TypeScript configuration              |
 | `packages/eslint-config` | Shared ESLint configuration                  |
