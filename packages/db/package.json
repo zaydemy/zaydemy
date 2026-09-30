@@ -18,7 +18,8 @@
     "db:migrate": "tsx src/cli/migrate.ts",
     "db:studio": "drizzle-kit studio",
     "db:check": "sh scripts/check-drift.sh",
-    "test:clean": "tsx src/cli/clean-test-databases.ts"
+    "test:clean": "tsx src/cli/clean-test-databases.ts",
+    "build": "esbuild src/cli/migrate.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/migrate.mjs --log-level=warning"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.3",
@@ -29,10 +30,11 @@
     "@zaydemy/eslint-config": "workspace:*",
     "@zaydemy/tsconfig": "workspace:*",
     "drizzle-kit": "^0.31.11",
+    "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.3",
-    "vitest": "^5.0.2",
-    "tsx": "^4.23.15"
+    "vitest": "^5.0.2"
   },
   "peerDependencies": {
     "vitest": "^5.0.2"

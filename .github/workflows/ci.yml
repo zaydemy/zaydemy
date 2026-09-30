@@ -40,3 +40,38 @@ jobs:
       # Fails when the Drizzle schema changed without a generated migration.
       - run: pnpm db:check
       - run: pnpm turbo run lint typecheck test build
+
+  # Builds the image and runs the documented self-host path end to end:
+  # compose up (migrations, then app), a backup, and a restore of it.
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configure
+        run: |
+          cp .env.example .env
+          {
+            echo "POSTGRES_PASSWORD=$(openssl rand -hex 24)"
+            echo "APP_SECRET=$(openssl rand -hex 32)"
+            echo "APP_URL=http://localhost:3000"
+            echo "EMAIL_TRANSPORT=console"
+          } >> .env
+      - run: docker compose up -d --build --wait
+      - name: Smoke test
+        run: |
+          curl -fsS localhost:3000/api/health
+          curl -fsS -H 'Accept-Language: tr' localhost:3000/ | grep -q 'lang="tr"'
+      - name: Backup and restore
+        run: |
+          docker compose exec -T postgres psql -U zaydemy -d zaydemy -c \
+            "insert into organization (name, slug) values ('CI Academy', 'ci-academy')"
+          docker/backup.sh ./backups
+          docker compose down -v
+          docker compose up -d --wait
+          docker/restore.sh ./backups/*.dump --yes
+          test "$(docker compose exec -T postgres psql -U zaydemy -d zaydemy -Atc \
+            "select name from organization")" = "CI Academy"
+          curl -fsS localhost:3000/api/health
+      - if: failure()
+        run: docker compose logs
