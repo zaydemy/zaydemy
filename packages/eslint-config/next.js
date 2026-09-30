@@ -42,6 +42,28 @@ export default defineConfig([
               "label",
             ],
           },
+          // Arguments to translators (`t`, `tSettings`...) and formatters
+          // (`format.dateTime(date, { dateStyle: "medium" })`) are keys and
+          // options, not copy. The rest are the plugin's defaults.
+          callees: {
+            exclude: [
+              "t",
+              "t[A-Z]\\w*",
+              "format\\.\\w+",
+              "i18n(ext)?",
+              "require",
+              "addEventListener",
+              "removeEventListener",
+              "postMessage",
+              "getElementById",
+              "dispatch",
+              "commit",
+              "includes",
+              "indexOf",
+              "endsWith",
+              "startsWith",
+            ],
+          },
         },
       ],
     },

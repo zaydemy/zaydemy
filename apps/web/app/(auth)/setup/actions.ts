@@ -24,6 +24,8 @@ export async function setUp(_previous: SetupState, form: FormData): Promise<Setu
   const organizationName = String(form.get("organization") ?? "").trim();
   const preset = String(form.get("preset") ?? "");
   const locale = String(form.get("locale") ?? "");
+  // Filled in by the browser; completeSetup ignores anything not IANA.
+  const timeZone = String(form.get("timeZone") ?? "");
 
   if (
     !name ||
@@ -41,6 +43,7 @@ export async function setUp(_previous: SetupState, form: FormData): Promise<Setu
     organizationName,
     preset: preset as OrganizationPreset,
     locale: isLocale(locale) ? locale : undefined,
+    timeZone: timeZone || undefined,
   });
   return result.status === "created"
     ? { status: "done", email }

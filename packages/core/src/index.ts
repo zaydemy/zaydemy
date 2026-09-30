@@ -5,7 +5,9 @@ export { isRateLimited, pruneRateLimitHits, type RateLimitRule } from "./platfor
 export {
   completeSetup,
   isSetupRequired,
+  isTimeZone,
   slugify,
   type SetupInput,
   type SetupResult,
 } from "./platform/setup";
+export { updateOwnProfile, type ProfileUpdate, type ProfileUpdateResult } from "./account/profile";

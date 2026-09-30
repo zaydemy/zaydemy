@@ -1,3 +1,4 @@
+export { listLinkedAccounts, unlinkProvider, type LinkedAccount } from "./accounts";
 export { isPublicAuthPath } from "./http-allowlist";
 export {
   createAuth,

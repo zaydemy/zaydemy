@@ -29,6 +29,9 @@ export type StorageConfig =
 export type BotProtectionConfig =
   { provider: "none" } | { provider: "turnstile" | "hcaptcha"; siteKey: string; secretKey: string };
 
+/** OAuth app for signing in with a linked GitHub account; optional. */
+export type GithubConfig = { clientId: string; clientSecret: string } | null;
+
 export interface ServerConfig {
   environment: Env["NODE_ENV"];
   /** Shown in emails, the browser title and passkey prompts. */
@@ -41,6 +44,7 @@ export interface ServerConfig {
   email: EmailConfig;
   storage: StorageConfig;
   botProtection: BotProtectionConfig;
+  github: GithubConfig;
 }
 
 /** Thrown with every problem at once, so an operator fixes them in one pass. */
@@ -156,6 +160,14 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
           ),
         };
 
+  if (Boolean(e.GITHUB_CLIENT_ID) !== Boolean(e.GITHUB_CLIENT_SECRET)) {
+    issues.push("GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET: set both or neither");
+  }
+  const github: GithubConfig =
+    e.GITHUB_CLIENT_ID && e.GITHUB_CLIENT_SECRET
+      ? { clientId: e.GITHUB_CLIENT_ID, clientSecret: e.GITHUB_CLIENT_SECRET }
+      : null;
+
   if (issues.length > 0) throw new ConfigError(issues);
 
   return {
@@ -167,5 +179,6 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
     email,
     storage,
     botProtection,
+    github,
   };
 }

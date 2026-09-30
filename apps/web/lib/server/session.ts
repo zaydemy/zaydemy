@@ -29,6 +29,7 @@ export async function listMemberships(userId: string) {
       role: schema.member.role,
       name: schema.organization.name,
       defaultLocale: schema.organization.defaultLocale,
+      timeZone: schema.organization.timeZone,
     })
     .from(schema.member)
     .innerJoin(schema.organization, eq(schema.organization.id, schema.member.organizationId))

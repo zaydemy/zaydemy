@@ -13,6 +13,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@better-auth/passkey": "1.7.6",
     "@zaydemy/adapters": "workspace:*",
     "@zaydemy/auth": "workspace:*",
     "@zaydemy/config": "workspace:*",

@@ -48,6 +48,9 @@ export const envSchema = z.object({
   S3_PUBLIC_URL: optional(url),
   S3_FORCE_PATH_STYLE: optional(bool).default(true),
 
+  GITHUB_CLIENT_ID: optional(z.string()),
+  GITHUB_CLIENT_SECRET: optional(z.string()),
+
   BOT_PROTECTION: optional(z.enum(["none", "turnstile", "hcaptcha"])).default("none"),
   BOT_PROTECTION_SITE_KEY: optional(z.string()),
   BOT_PROTECTION_SECRET_KEY: optional(z.string()),

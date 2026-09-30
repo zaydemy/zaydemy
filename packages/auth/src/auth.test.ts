@@ -5,13 +5,19 @@ import { getSchema } from "better-auth/db";
 import { eq, getTableColumns, type Table } from "drizzle-orm";
 import { beforeAll, describe, expect, it } from "vitest";
 import { createAuth, type Auth } from "./server";
-import { requestSignInCode, verifySignInCode, type SignInDependencies } from "./sign-in";
+import {
+  requestSignInCode,
+  signInRateLimits,
+  verifySignInCode,
+  type SignInDependencies,
+} from "./sign-in";
 
 const database = useTestDatabase();
 const config = {
   appName: "Test Academy",
   appUrl: "http://localhost:3010",
   appSecret: "s".repeat(32),
+  github: null,
 };
 
 let auth: Auth;
@@ -115,14 +121,57 @@ describe("HTTP surface", () => {
       ["/organization/list-members", "GET"],
       ["/admin/list-users", "GET"],
       ["/update-user", "POST"],
+      // Management goes through server actions, not the browser.
+      ["/list-sessions", "GET"],
+      ["/revoke-other-sessions", "POST"],
+      ["/list-accounts", "GET"],
+      ["/unlink-account", "POST"],
+      ["/passkey/list-user-passkeys", "GET"],
+      ["/passkey/delete-passkey", "POST"],
     ] as const) {
       expect((await call(path, method)).status, path).toBe(404);
     }
   });
 
   it("keeps browser-facing endpoints reachable", async () => {
-    const response = await call("/get-session");
+    expect((await call("/get-session")).status).toBe(200);
+    // The passkey sign-in ceremony starts without a session.
+    expect((await call("/passkey/generate-authenticate-options")).status).toBe(200);
+  });
+});
+
+describe("GitHub", () => {
+  const socialSignIn = (target: Auth) =>
+    target.handler(
+      new Request(`${config.appUrl}/api/auth/sign-in/social`, {
+        method: "POST",
+        headers: { "content-type": "application/json", origin: config.appUrl },
+        body: JSON.stringify({ provider: "github", callbackURL: "/" }),
+      }),
+    );
+
+  it("is unavailable unless configured", async () => {
+    expect((await socialSignIn(auth)).ok).toBe(false);
+  });
+
+  it("redirects to GitHub asking only for read access to the profile", async () => {
+    const withGithub = createAuth({
+      db: database.db,
+      config: { ...config, github: { clientId: "gh-client", clientSecret: "gh-secret" } },
+    });
+    const response = await socialSignIn(withGithub);
     expect(response.status).toBe(200);
+    const { url } = (await response.json()) as { url: string };
+    const target = new URL(url);
+    expect(target.origin + target.pathname).toBe("https://github.com/login/oauth/authorize");
+    expect(target.searchParams.get("client_id")).toBe("gh-client");
+    // Better Auth's defaults (read:user, user:email) plus ours: read-only.
+    expect(new Set(target.searchParams.get("scope")?.split(" "))).toEqual(
+      new Set(["read:user", "user:email"]),
+    );
+    expect(target.searchParams.get("redirect_uri")).toBe(
+      `${config.appUrl}/api/auth/callback/github`,
+    );
   });
 });
 
@@ -234,17 +283,19 @@ describe("sign-in with an email code", () => {
     expect(await requestCode(user.email)).toEqual({ status: "rate-limited" });
   });
 
-  it("limits requests per IP across addresses", async () => {
+  it("limits requests per IP across addresses, generously enough for a shared school network", async () => {
     const ip = "203.0.113.50";
-    const results = [];
-    for (let i = 0; i < 11; i++) {
+    const { max } = signInRateLimits.ip;
+    expect(max).toBeGreaterThanOrEqual(60);
+    for (let i = 0; i < max; i++) {
       const user = await createUser(database.db);
-      results.push(
-        (await requestSignInCode(deps, { email: user.email, ip, requestLocale: "en" })).status,
-      );
+      const result = await requestSignInCode(deps, { email: user.email, ip, requestLocale: "en" });
+      expect(result.status).toBe("sent");
     }
-    expect(results.slice(0, 10).every((s) => s === "sent")).toBe(true);
-    expect(results[10]).toBe("rate-limited");
+    const one = await createUser(database.db);
+    expect(
+      (await requestSignInCode(deps, { email: one.email, ip, requestLocale: "en" })).status,
+    ).toBe("rate-limited");
   });
 
   it("checks bots before counting the request", async () => {

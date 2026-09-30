@@ -1,20 +1,30 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Mail, RotateCw, TriangleAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, Fingerprint, Mail, RotateCw, TriangleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   useCallback,
   useEffect,
   useState,
+  useSyncExternalStore,
   useTransition,
   type FormEvent,
   type ReactNode,
 } from "react";
 import { BotWidget, type BotWidgetConfig } from "@/components/auth/bot-widget";
+import { GithubMark } from "@/components/icons/github-mark";
 import { OtpField, type OtpStatus } from "@/components/auth/otp-field";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/cn";
+import {
+  closePasskeyOffer,
+  isCancelled,
+  shouldOfferPasskey,
+  suggestedDeviceName,
+  supportsPasskeys,
+} from "@/lib/passkey-offer";
 import { requestCode, verifyCode } from "./actions";
 
 const resendSeconds = 60;
@@ -22,17 +32,23 @@ const resendSeconds = 60;
 type Step =
   | { name: "email" }
   | { name: "code"; email: string }
+  | { name: "passkey-offer" }
   | { name: "blocked"; email: string; reason: "unknown-account" | "blocked" };
 
 export function LoginFlow({
   bot,
   initialEmail,
+  initialError,
   codeMinutes,
+  githubEnabled,
 }: {
   /** Bot-protection widget, when configured. */
   bot: BotWidgetConfig | null;
   initialEmail: string;
+  /** A translated message from a failed GitHub round trip (`?error=`). */
+  initialError: string | null;
   codeMinutes: number;
+  githubEnabled: boolean;
 }) {
   const [step, setStep] = useState<Step>({ name: "email" });
 
@@ -43,9 +59,11 @@ export function LoginFlow({
         bot={bot}
         codeMinutes={codeMinutes}
         onBack={() => setStep({ name: "email" })}
+        onOffer={() => setStep({ name: "passkey-offer" })}
       />
     );
   }
+  if (step.name === "passkey-offer") return <PasskeyOfferStep />;
   if (step.name === "blocked") {
     return (
       <BlockedStep
@@ -55,7 +73,31 @@ export function LoginFlow({
       />
     );
   }
-  return <EmailStep bot={bot} initialEmail={initialEmail} onDone={setStep} />;
+  return (
+    <EmailStep
+      bot={bot}
+      initialEmail={initialEmail}
+      initialError={initialError}
+      githubEnabled={githubEnabled}
+      onDone={setStep}
+    />
+  );
+}
+
+/** Enter the app after signing in; a full navigation refreshes server state. */
+function useEnterApp() {
+  const router = useRouter();
+  return useCallback(() => {
+    router.replace("/");
+    router.refresh();
+  }, [router]);
+}
+
+const noSubscription = () => () => {};
+
+/** Hydration-safe: false while server rendering, the real answer in the browser. */
+function usePasskeySupport() {
+  return useSyncExternalStore(noSubscription, supportsPasskeys, () => false);
 }
 
 /** Keeps the latest single-use bot token and a way to demand a fresh one. */
@@ -73,15 +115,56 @@ function useBotToken() {
 function EmailStep({
   bot,
   initialEmail,
+  initialError,
+  githubEnabled,
   onDone,
 }: {
   bot: BotWidgetConfig | null;
   initialEmail: string;
+  initialError: string | null;
+  githubEnabled: boolean;
   onDone: (step: Step) => void;
 }) {
   const t = useTranslations("SignIn");
+  const enterApp = useEnterApp();
+  const passkeys = usePasskeySupport();
   const [email, setEmail] = useState(initialEmail);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(initialError);
+  const [alternative, setAlternative] = useState<"passkey" | "github" | null>(null);
+
+  async function signInWithPasskey() {
+    setError(null);
+    setAlternative("passkey");
+    try {
+      const result = await authClient.signIn.passkey();
+      if (result?.error) {
+        const code = "code" in result.error ? String(result.error.code).toUpperCase() : "";
+        setError(code === "BANNED_USER" ? t("githubErrors.blocked") : t("passkeyErrors.notFound"));
+        return;
+      }
+      enterApp();
+    } catch (failure) {
+      if (!isCancelled(failure)) setError(t("passkeyErrors.failed"));
+    } finally {
+      setAlternative(null);
+    }
+  }
+
+  // Leaves for GitHub and comes back to /login: with a session the page
+  // sends the user in, otherwise `?error=` explains what went wrong.
+  async function signInWithGithub() {
+    setError(null);
+    setAlternative("github");
+    const { error: failure } = await authClient.signIn.social({
+      provider: "github",
+      callbackURL: "/",
+      errorCallbackURL: "/login",
+    });
+    if (failure) {
+      setAlternative(null);
+      setError(t("githubErrors.redirectFailed"));
+    }
+  }
   const [pending, start] = useTransition();
   const botToken = useBotToken();
 
@@ -165,7 +248,122 @@ function EmailStep({
           />
         )}
       </Button>
+
+      {passkeys || githubEnabled ? (
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3 text-[12px] text-muted">
+            <span className="h-px flex-1 bg-line" />
+            {t("alternatives.or")}
+            <span className="h-px flex-1 bg-line" />
+          </div>
+          <div className={cn("grid gap-2.5", passkeys && githubEnabled && "sm:grid-cols-2")}>
+            {passkeys ? (
+              <AltButton
+                icon={<Fingerprint size={17} strokeWidth={1.75} />}
+                disabled={pending || alternative !== null}
+                onClick={() => void signInWithPasskey()}
+              >
+                {alternative === "passkey"
+                  ? t("alternatives.passkeyWaiting")
+                  : t("alternatives.passkey")}
+              </AltButton>
+            ) : null}
+            {githubEnabled ? (
+              <AltButton
+                icon={<GithubMark size={16} />}
+                disabled={pending || alternative !== null}
+                onClick={() => void signInWithGithub()}
+              >
+                {alternative === "github"
+                  ? t("alternatives.githubRedirecting")
+                  : t("alternatives.github")}
+              </AltButton>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </form>
+  );
+}
+
+function AltButton({
+  icon,
+  children,
+  disabled,
+  onClick,
+}: {
+  icon: ReactNode;
+  children: ReactNode;
+  disabled?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className="flex h-11 w-full items-center justify-center gap-2 rounded-card border border-line bg-card text-[14px] font-medium text-body transition-colors hover:border-outline hover:bg-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-body disabled:opacity-50"
+    >
+      {icon}
+      {children}
+    </button>
+  );
+}
+
+/**
+ * After a code sign-in, once per device: offer to save a passkey. The session
+ * exists now, and registering one requires it. Either answer is remembered on
+ * this device; Settings can save one any time.
+ */
+function PasskeyOfferStep() {
+  const t = useTranslations("SignIn.passkeyOffer");
+  const tSettings = useTranslations("Settings.passkeys");
+  const enterApp = useEnterApp();
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  function skip() {
+    closePasskeyOffer("skipped");
+    enterApp();
+  }
+
+  async function save() {
+    setError(null);
+    setSaving(true);
+    try {
+      const { error: failure } = await authClient.passkey.addPasskey({
+        name: suggestedDeviceName(tSettings("unnamed")),
+      });
+      if (failure) {
+        setError(t("failed"));
+        return;
+      }
+      closePasskeyOffer("saved");
+      enterApp();
+    } catch (failure) {
+      if (!isCancelled(failure)) setError(t("failed"));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <span className="flex size-12 items-center justify-center rounded-field border border-line bg-subtle text-body">
+        <Fingerprint size={24} strokeWidth={1.5} />
+      </span>
+      <StepTitle title={t("title")} text={t("body")} />
+      {error ? <ErrorLine>{error}</ErrorLine> : null}
+      <div className="flex flex-col gap-2.5">
+        <Button size="lg" disabled={saving} onClick={() => void save()} className="w-full">
+          {saving ? t("saving") : t("save")}
+        </Button>
+        <Button tone="ghost" size="lg" disabled={saving} onClick={skip} className="w-full">
+          {t("skip")}
+        </Button>
+      </div>
+      <p className="text-center text-[12px] leading-relaxed text-muted">{t("note")}</p>
+    </div>
   );
 }
 
@@ -174,14 +372,17 @@ function CodeStep({
   bot,
   codeMinutes,
   onBack,
+  onOffer,
 }: {
   email: string;
   bot: BotWidgetConfig | null;
   codeMinutes: number;
   onBack: () => void;
+  /** Called instead of entering the app when a passkey should be offered. */
+  onOffer: () => void;
 }) {
   const t = useTranslations("SignIn");
-  const router = useRouter();
+  const enterApp = useEnterApp();
   const [code, setCode] = useState("");
   const [status, setStatus] = useState<OtpStatus>("idle");
   const [errorKey, setErrorKey] = useState(0);
@@ -214,8 +415,8 @@ function CodeStep({
             setStatus("success");
             // Let the confirmation read, then enter.
             await new Promise((resolve) => window.setTimeout(resolve, 450));
-            router.replace("/");
-            router.refresh();
+            if (shouldOfferPasskey()) onOffer();
+            else enterApp();
             return;
           case "invalid":
             return fail(t("errors.invalidCode", { attemptsLeft: result.attemptsLeft }));
@@ -230,7 +431,7 @@ function CodeStep({
         }
       });
     },
-    [email, fail, onBack, router, t],
+    [email, enterApp, fail, onBack, onOffer, t],
   );
 
   function resend() {

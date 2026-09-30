@@ -2,7 +2,7 @@ import { schema } from "@zaydemy/db";
 import { useTestDatabase } from "@zaydemy/db/testing";
 import { describe, expect, it } from "vitest";
 import { isRateLimited, pruneRateLimitHits } from "./rate-limit";
-import { completeSetup, isSetupRequired, slugify } from "./setup";
+import { completeSetup, isSetupRequired, isTimeZone, slugify } from "./setup";
 
 const database = useTestDatabase();
 
@@ -30,6 +30,12 @@ describe("rate limit", () => {
 });
 
 describe("setup", () => {
+  it("recognizes IANA time zones", () => {
+    expect(isTimeZone("Europe/Istanbul")).toBe(true);
+    expect(isTimeZone("America/Argentina/Buenos_Aires")).toBe(true);
+    expect(isTimeZone("Mars/Olympus")).toBe(false);
+  });
+
   it("slugifies names, including Turkish letters", () => {
     expect(slugify("Işık Yazılım Akademisi")).toBe("isik-yazilim-akademisi");
     expect(slugify("İstanbul Kodlama Okulu")).toBe("istanbul-kodlama-okulu");
@@ -45,6 +51,7 @@ describe("setup", () => {
       organizationName: "Kodlama Akademisi",
       preset: "academy" as const,
       locale: "tr",
+      timeZone: "Europe/Istanbul",
     };
     // Concurrent attempts: exactly one wins.
     const results = await Promise.all([

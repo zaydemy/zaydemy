@@ -2,7 +2,8 @@
   "Metadata": {
     "signIn": "Giriş yap",
     "setup": "Kurulum",
-    "home": "Ana sayfa"
+    "home": "Ana sayfa",
+    "settings": "Ayarlar"
   },
   "AuthFrame": {
     "closedAccess": "Kapalı erişim: hesapları okulun ya da eğitmenin açar.",
@@ -45,6 +46,33 @@
       "expired": "Kodun süresi doldu. Yeni bir kod iste.",
       "locked": "Çok fazla deneme yapıldı. Yeni bir kod iste.",
       "unexpected": "Bir şeyler ters gitti. Tekrar dene."
+    },
+    "alternatives": {
+      "or": "ya da",
+      "passkey": "Geçiş anahtarı",
+      "passkeyWaiting": "Cihaz bekleniyor…",
+      "github": "GitHub",
+      "githubRedirecting": "Yönlendiriliyor…"
+    },
+    "passkeyErrors": {
+      "notFound": "Bu cihazda bu siteye ait bir geçiş anahtarı bulunamadı. Kodla gir, sonra Ayarlar'dan kaydet.",
+      "failed": "Geçiş anahtarıyla giriş yapılamadı. E-posta kodunu kullan."
+    },
+    "githubErrors": {
+      "notLinked": "Bu GitHub hesabı buradaki bir hesaba bağlı değil. Kodla gir, sonra Ayarlar'dan GitHub'ı bağla.",
+      "denied": "GitHub'da izin verilmedi. Tekrar dene ya da kodla gir.",
+      "blocked": "Bu hesapla giriş kapatılmış. Okulunla ya da eğitmeninle iletişime geç.",
+      "failed": "GitHub ile giriş yapılamadı. Tekrar dene ya da kodla gir.",
+      "redirectFailed": "GitHub'a ulaşılamadı. Biraz sonra tekrar dene."
+    },
+    "passkeyOffer": {
+      "title": "Bir dahaki sefere tek dokunuşla gir",
+      "body": "Bu cihazı kaydedersen kod beklemeden parmak izin, yüzün ya da cihaz PIN'inle girersin. Cihazını kaybedersen kodla girmeye devam edebilirsin.",
+      "save": "Bu cihazı kaydet",
+      "saving": "Cihaz bekleniyor…",
+      "skip": "Şimdi değil",
+      "note": "“Şimdi değil” dersen bu cihazda bir daha sorulmaz. İstediğin zaman Ayarlar'dan kaydedebilirsin.",
+      "failed": "Cihaz kaydedilemedi. Ayarlar'dan tekrar deneyebilirsin."
     }
   },
   "Setup": {
@@ -80,7 +108,8 @@
   "Shell": {
     "signOut": "Çıkış yap",
     "organization": "Kurum",
-    "switchTo": "{name} kurumuna geç"
+    "switchTo": "{name} kurumuna geç",
+    "settings": "Ayarlar"
   },
   "Home": {
     "greeting": "Merhaba, {name}",
@@ -96,6 +125,78 @@
   "Language": {
     "en": "English",
     "tr": "Türkçe"
+  },
+  "Settings": {
+    "title": "Ayarlar",
+    "profile": {
+      "title": "Profil",
+      "name": "Ad",
+      "language": "Dil",
+      "languageAuto": "Otomatik (kurum ya da tarayıcı)",
+      "save": "Kaydet",
+      "saving": "Kaydediliyor…",
+      "saved": "Kaydedildi.",
+      "invalidName": "Bir ad gir.",
+      "email": "E-posta adresi"
+    },
+    "appearance": {
+      "title": "Görünüm",
+      "theme": "Tema",
+      "system": "Sistem",
+      "light": "Açık",
+      "dark": "Koyu"
+    },
+    "passkeys": {
+      "title": "Geçiş anahtarları",
+      "count": "{count, plural, one {# cihaz} other {# cihaz}}",
+      "body": "Kod beklemek yerine parmak izin, yüzün ya da cihaz PIN'inle gir. Bir cihazı kaybedersen e-posta koduyla girmeye devam edebilirsin.",
+      "add": "Bu cihazı kaydet",
+      "addAnother": "Başka bir cihaz kaydet",
+      "saving": "Cihaz bekleniyor…",
+      "rename": "Adlandır",
+      "renamePrompt": "Bu cihaza bir ad ver",
+      "remove": "Kaldır",
+      "removeConfirm": "“{name}” kaldırılsın mı? O cihazda artık bununla giriş yapamazsın.",
+      "backedUp": "eşitlenmiş",
+      "unnamed": "Kayıtlı cihaz",
+      "added": "{date} eklendi",
+      "privacy": "Parmak izin ya da yüzün cihazından hiç çıkmaz; bu siteye yalnız bir genel anahtar gelir. Geçiş anahtarı bu sitenin adresine bağlıdır, sahte bir site onu kullanamaz.",
+      "unsupported": "Bu tarayıcı geçiş anahtarını desteklemiyor.",
+      "errors": {
+        "exists": "Bu cihaz zaten kayıtlı.",
+        "failed": "Cihaz kaydedilemedi. Tekrar dene.",
+        "renameFailed": "Ad değiştirilemedi.",
+        "removeFailed": "Geçiş anahtarı kaldırılamadı."
+      }
+    },
+    "github": {
+      "title": "GitHub",
+      "linked": "Bağlı",
+      "body": "GitHub hesabını bağlarsan onunla giriş yapabilirsin. Yalnız profilini okuma izni istenir.",
+      "link": "GitHub hesabını bağla",
+      "redirecting": "Yönlendiriliyor…",
+      "accountLabel": "GitHub hesabı {id}",
+      "unlink": "Bağlantıyı kaldır",
+      "unlinkConfirm": "GitHub bağlantısı kaldırılsın mı? E-posta koduyla girmeye devam edebilirsin.",
+      "linkFailed": "GitHub'a ulaşılamadı. Biraz sonra tekrar dene.",
+      "notConfigured": "Bu kurulumda GitHub ile giriş ayarlanmamış."
+    },
+    "sessions": {
+      "title": "Oturumlar",
+      "count": "{count, plural, one {# açık oturum} other {# açık oturum}}",
+      "current": "Bu cihaz",
+      "signOutOthers": "Diğer oturumları kapat",
+      "signOutOthersConfirm": "Bu cihaz dışındaki bütün oturumlar kapatılsın mı?",
+      "revoke": "Oturumu kapat",
+      "revokeLabel": "{device} oturumunu kapat",
+      "revokeConfirm": "{device} oturumu kapatılsın mı? O cihazda yeniden giriş gerekecek.",
+      "details": "{ip} · giriş {date}",
+      "unknownIp": "IP bilinmiyor",
+      "unknownDevice": "Bilinmeyen cihaz",
+      "stale": "Güvenliğin için açık oturumlar yalnız girişten kısa süre sonra listelenir. Görmek ve kapatmak için çıkış yapıp tekrar gir.",
+      "failed": "Oturum kapatılamadı.",
+      "note": "Burada parola yok: her giriş tek kullanımlık kod, geçiş anahtarı ya da bağlı GitHub hesabıyla yapılır. Tanımadığın bir oturum görürsen kapat."
+    }
   },
   "Email": {
     "signInCode": {

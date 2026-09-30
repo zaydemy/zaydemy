@@ -17,6 +17,16 @@ export type SetupResult =
 // Arbitrary constant identifying the setup lock among advisory locks.
 const setupLockKey = 7_203_418;
 
+/** An IANA time zone the runtime knows, e.g. `Europe/Istanbul`. */
+export function isTimeZone(value: string): boolean {
+  try {
+    new Intl.DateTimeFormat("en", { timeZone: value });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** First run: no account exists yet, so nobody could sign in. */
 export async function isSetupRequired(db: Database): Promise<boolean> {
   const [existing] = await db.select({ id: schema.user.id }).from(schema.user).limit(1);
@@ -46,6 +56,7 @@ export function slugify(value: string): string {
  * runs inside the lock. After that, accounts come from invitations.
  */
 export async function completeSetup(db: Database, input: SetupInput): Promise<SetupResult> {
+  const timeZone = input.timeZone && isTimeZone(input.timeZone) ? input.timeZone : undefined;
   return db.transaction(async (tx) => {
     await tx.execute(sql`select pg_advisory_xact_lock(${setupLockKey})`);
     const [existing] = await tx.select({ id: schema.user.id }).from(schema.user).limit(1);
@@ -59,7 +70,6 @@ export async function completeSetup(db: Database, input: SetupInput): Promise<Se
         emailVerified: true,
         platformRole: "admin",
         locale: input.locale,
-        timeZone: input.timeZone,
       })
       .returning({ id: schema.user.id });
 
@@ -70,7 +80,8 @@ export async function completeSetup(db: Database, input: SetupInput): Promise<Se
         slug: slugify(input.organizationName),
         preset: input.preset,
         defaultLocale: input.locale,
-        timeZone: input.timeZone,
+        // The organization's zone; people follow it until they choose their own.
+        timeZone,
       })
       .returning({ id: schema.organization.id });
 
