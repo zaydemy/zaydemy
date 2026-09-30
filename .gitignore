@@ -1,0 +1,33 @@
+# Internal working notes (not published)
+PLAN.md
+CLAUDE.md
+
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Tooling
+.turbo/
+coverage/
+
+# Env files (examples are committed)
+.env*
+!.env*.example
+
+# Editors and OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+*.pem
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
