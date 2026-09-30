@@ -1,7 +1,101 @@
 {
-  "HomePage": {
-    "title": "Almost ready",
-    "description": "This learning platform is being set up. Check back soon."
+  "Metadata": {
+    "signIn": "Sign in",
+    "setup": "Set up",
+    "home": "Home"
+  },
+  "AuthFrame": {
+    "closedAccess": "Closed access: accounts are created by your school or instructor.",
+    "setupNote": "First run: this page closes once the first account exists."
+  },
+  "SignIn": {
+    "email": {
+      "title": "Sign in",
+      "description": "Enter the email address your account uses and we will send you a 6-digit sign-in code.",
+      "label": "Email address",
+      "placeholder": "you@example.com",
+      "submit": "Send code",
+      "sending": "Sending code…"
+    },
+    "code": {
+      "back": "Change email",
+      "title": "Enter the code",
+      "description": "We sent a 6-digit code to this address. It is valid for {minutes} minutes.",
+      "fieldLabel": "6-digit sign-in code",
+      "resendIn": "New code in {time}",
+      "resend": "Send a new code",
+      "checkSpam": "Check your spam folder too",
+      "submit": "Verify and sign in",
+      "verifying": "Verifying…",
+      "signingIn": "Signing in…"
+    },
+    "blocked": {
+      "unknownTitle": "This email is not registered",
+      "unknownBody": "Accounts are created by your school or instructor. If you should have access, ask them to invite you.",
+      "blockedTitle": "This account is blocked",
+      "blockedBody": "Signing in is disabled for this account. Contact your school or instructor.",
+      "tryAnother": "Try another email"
+    },
+    "errors": {
+      "invalidEmail": "Enter a valid email address.",
+      "botCheckFailed": "The security check did not pass. Reload the page and try again.",
+      "rateLimited": "Too many codes were requested. Try again in a few minutes.",
+      "deliveryFailed": "We could not send the code. Try again shortly; if it keeps failing, contact your school.",
+      "invalidCode": "That code does not match. {attemptsLeft, plural, one {# attempt} other {# attempts}} left.",
+      "expired": "The code has expired. Request a new one.",
+      "locked": "Too many attempts. Request a new code.",
+      "unexpected": "Something went wrong. Try again."
+    }
+  },
+  "Setup": {
+    "title": "Set up {appName}",
+    "description": "Create the first account. It becomes the platform administrator and the owner of your organization.",
+    "name": "Your name",
+    "namePlaceholder": "Ada Lovelace",
+    "email": "Email address",
+    "emailHint": "You will sign in with a code sent here, so it must receive email.",
+    "organization": "Organization name",
+    "organizationPlaceholder": "Example Academy",
+    "preset": "What are you setting up?",
+    "presets": {
+      "individual": "Individual instructor",
+      "individualHint": "Just you and your students.",
+      "academy": "Academy",
+      "academyHint": "Several instructors, classes and terms.",
+      "school": "School",
+      "schoolHint": "Many classes and staff roles."
+    },
+    "language": "Language",
+    "submit": "Create account",
+    "submitting": "Creating…",
+    "doneTitle": "You are all set",
+    "doneBody": "Your account and organization are ready. Sign in with a code sent to {email}.",
+    "continue": "Continue to sign in",
+    "errors": {
+      "required": "Fill in every field.",
+      "invalidEmail": "Enter a valid email address.",
+      "alreadySetUp": "This instance is already set up. Sign in instead."
+    }
+  },
+  "Shell": {
+    "signOut": "Sign out",
+    "organization": "Organization",
+    "switchTo": "Switch to {name}"
+  },
+  "Home": {
+    "greeting": "Hello, {name}",
+    "roleIn": "You are {role, select, owner {the owner} admin {an administrator} instructor {an instructor} other {a student}} in {organization}.",
+    "classesTitle": "Your classes",
+    "allClassesTitle": "All classes",
+    "noClasses": "No classes yet.",
+    "archived": "Archived",
+    "kind": "{kind, select, individual {One-to-one} other {Class}}",
+    "noOrganizationTitle": "No organization yet",
+    "noOrganizationBody": "Your account is not a member of any organization. Ask your school or instructor to add you."
+  },
+  "Language": {
+    "en": "English",
+    "tr": "Türkçe"
   },
   "Email": {
     "signInCode": {

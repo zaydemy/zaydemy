@@ -19,10 +19,10 @@ export default defineConfig([
     },
   },
   {
-    // Every user-facing string goes through i18n: literal text in JSX, and
-    // literals in attributes that users read (aria-label, title, alt,
-    // placeholder...), fail lint. Attributes listed below carry identifiers,
-    // URLs or styling, not copy.
+    // Every user-facing string goes through i18n: literal text in JSX and
+    // literals in the attributes people read or hear (labels, alt text,
+    // titles, placeholders) fail lint. Other attributes carry identifiers,
+    // class names, props and handler code, not copy.
     plugins: { i18next },
     rules: {
       "i18next/no-literal-string": [
@@ -30,31 +30,16 @@ export default defineConfig([
         {
           mode: "jsx-only",
           "jsx-attributes": {
-            exclude: [
-              "className",
-              "style",
-              "type",
-              "key",
-              "id",
-              "width",
-              "height",
-              "href",
-              "src",
-              "rel",
-              "target",
-              "lang",
-              "dir",
-              "name",
-              "method",
-              "role",
-              "htmlFor",
-              "autoComplete",
-              "inputMode",
-              "sizes",
-              "as",
-              "variant",
-              "size",
-              "data-.*",
+            include: [
+              "aria-label",
+              "aria-description",
+              "aria-placeholder",
+              "aria-roledescription",
+              "aria-valuetext",
+              "alt",
+              "title",
+              "placeholder",
+              "label",
             ],
           },
         },
