@@ -1,0 +1,34 @@
+The zaydemy Enterprise License (the "EE License")
+Copyright (c) 2026 Furkan Özay
+
+DRAFT: this text has not been reviewed by a lawyer and must be reviewed
+before the first enterprise module is published.
+
+With regard to the software contained in this "ee" directory and its
+subdirectories (the "Enterprise Software"):
+
+1. The Enterprise Software may only be used in production if you (and any
+   entity that you represent) have agreed to, and are in compliance with, a
+   valid zaydemy commercial agreement or subscription for the correct number
+   of users and organizations (a "Commercial Agreement").
+
+2. Without a Commercial Agreement you may copy and modify the Enterprise
+   Software only for development and testing purposes. You may not use it in
+   production, and you may not sell, sublicense or otherwise distribute it
+   or any modified version of it.
+
+3. You are not granted any other rights beyond what is expressly stated
+   herein. The zaydemy name and logo are not licensed under this or any
+   other license in this repository.
+
+4. This license applies only to the contents of the "ee" directory. All
+   software outside of it is licensed under the GNU Affero General Public
+   License v3.0, as described in the LICENSE file at the repository root.
+
+THE ENTERPRISE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE ENTERPRISE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE ENTERPRISE SOFTWARE.
