@@ -13,6 +13,9 @@ build/
 *.tsbuildinfo
 next-env.d.ts
 
+# Local file storage (STORAGE_LOCAL_DIR default)
+data/
+
 # Tooling
 .turbo/
 coverage/
