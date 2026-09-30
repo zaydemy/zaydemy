@@ -1,6 +1,6 @@
 import "server-only";
 import { schema } from "@zaydemy/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -18,9 +18,10 @@ export async function requireSession() {
 }
 
 /**
- * The organization the session acts in: the picked one if the user is still a
- * member, otherwise their first membership. The picker is a filter, never a
- * permission: membership is re-checked by `resolveTenantContext`.
+ * The user's active memberships (passive ones cannot be acted in). The
+ * organization the session acts in is the picked one if still listed here,
+ * otherwise the first. The picker is a filter, never a permission:
+ * membership is re-checked by `resolveTenantContext`.
  */
 export async function listMemberships(userId: string) {
   return getDb()
@@ -33,7 +34,7 @@ export async function listMemberships(userId: string) {
     })
     .from(schema.member)
     .innerJoin(schema.organization, eq(schema.organization.id, schema.member.organizationId))
-    .where(eq(schema.member.userId, userId))
+    .where(and(eq(schema.member.userId, userId), eq(schema.member.status, "active")))
     .orderBy(schema.member.createdAt);
 }
 

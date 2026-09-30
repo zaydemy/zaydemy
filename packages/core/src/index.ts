@@ -11,3 +11,35 @@ export {
   type SetupResult,
 } from "./platform/setup";
 export { updateOwnProfile, type ProfileUpdate, type ProfileUpdateResult } from "./account/profile";
+export {
+  createClass,
+  deleteClass,
+  getClassRoster,
+  listClassOverview,
+  normalizeColor,
+  setClassArchived,
+  updateClass,
+  type ClassInput,
+  type ClassOverview,
+  type ClassRoster,
+} from "./organization/classes";
+export {
+  addPerson,
+  addToClass,
+  listPeople,
+  removeFromClass,
+  removeMembers,
+  setMemberRole,
+  setMemberStatus,
+  type AddPersonInput,
+  type AddPersonResult,
+  type PeopleFilter,
+  type PersonRow,
+} from "./organization/people";
+export type { Denied } from "./organization/results";
+export {
+  assignableRoles,
+  canManageMember,
+  isStaff,
+  managesOrganization,
+} from "./tenancy/permissions";
