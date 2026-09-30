@@ -1,18 +1,14 @@
 import type { TestProject } from "vitest/node";
+import "./provided-context";
 import { runMigrations } from "../migrate";
 import {
   databaseUrl,
   dropDatabase,
+  dropRunDatabases,
   dropStaleDatabases,
   newDatabaseName,
   withServer,
 } from "./server";
-
-declare module "vitest" {
-  export interface ProvidedContext {
-    templateDatabase: string;
-  }
-}
 
 /**
  * Vitest global setup: migrates a template database once per run. Test files
@@ -30,7 +26,12 @@ export default async function setup(project: TestProject) {
 
   project.provide("templateDatabase", template);
 
+  // Also drops the per-file clones, in case a file was interrupted before
+  // its own cleanup ran.
   return async () => {
-    await withServer((sql) => dropDatabase(sql, template));
+    await withServer(async (sql) => {
+      await dropRunDatabases(sql, template);
+      await dropDatabase(sql, template);
+    });
   };
 }

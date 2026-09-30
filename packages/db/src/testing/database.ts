@@ -1,14 +1,14 @@
+import { randomBytes } from "node:crypto";
 import { afterAll, beforeAll, inject } from "vitest";
-import { createDatabase, type Database, type DatabaseConnection } from "../client";
-import { databaseUrl, dropDatabase, newDatabaseName, withServer } from "./server";
-
-export type Transaction = Parameters<Parameters<Database["transaction"]>[0]>[0];
+import { createDatabase, type DatabaseConnection, type Transaction } from "../client";
+import "./provided-context";
+import { databaseUrl, dropDatabase, withServer } from "./server";
 
 class Rollback extends Error {}
 
 export interface TestDatabase {
   /** The file's own database. Writes made outside `rollback` persist until the file ends. */
-  readonly db: Database;
+  readonly db: DatabaseConnection["db"];
   /** Runs `fn` in a transaction that is always rolled back, so tests never see each other's rows. */
   rollback<T>(fn: (tx: Transaction) => Promise<T>): Promise<T>;
 }
@@ -19,18 +19,21 @@ export interface TestDatabase {
  * without sharing any state; call once at the top level of a test file.
  */
 export function useTestDatabase(): TestDatabase {
-  const name = newDatabaseName();
+  let name: string | undefined;
   let connection: DatabaseConnection | undefined;
 
   beforeAll(async () => {
     const template = inject("templateDatabase");
-    await withServer((sql) => sql`create database ${sql(name)} template ${sql(template)}`);
-    connection = createDatabase(databaseUrl(name), { max: 2 });
+    // Prefixed with the template's name so the run's teardown can find it.
+    const clone = `${template}_${randomBytes(4).toString("hex")}`;
+    await withServer((sql) => sql`create database ${sql(clone)} template ${sql(template)}`);
+    name = clone;
+    connection = createDatabase(databaseUrl(clone), { max: 2 });
   });
 
   afterAll(async () => {
     await connection?.close();
-    await withServer((sql) => dropDatabase(sql, name));
+    if (name) await withServer((sql) => dropDatabase(sql, name!));
   });
 
   const db = () => {

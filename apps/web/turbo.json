@@ -1,0 +1,10 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "typecheck"]
+    }
+  },
+  "//": "Both `next typegen` (typecheck) and `next build` write to .next/; running them in parallel races."
+}

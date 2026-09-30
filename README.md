@@ -33,6 +33,7 @@ pnpm build
 | Path                     | Purpose                                      |
 | ------------------------ | -------------------------------------------- |
 | `apps/web`               | Next.js application                          |
+| `packages/core`          | Business logic, tenant-scoped data access    |
 | `packages/db`            | Schema, migrations, test database harness    |
 | `packages/i18n`          | Locales, message catalogs, locale resolution |
 | `packages/tsconfig`      | Shared TypeScript configuration              |

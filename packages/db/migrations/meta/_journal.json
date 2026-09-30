@@ -15,6 +15,13 @@
       "when": 1790764679864,
       "tag": "0001_tenant_integrity",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790765198676,
+      "tag": "0002_row_level_security",
+      "breakpoints": true
     }
   ]
 }

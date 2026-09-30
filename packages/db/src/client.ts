@@ -3,8 +3,15 @@ import postgres from "postgres";
 import * as schema from "./schema";
 
 export type Database = ReturnType<typeof createDrizzle>;
-/** A database handle or an open transaction: queries accept either. */
-export type Executor = Database | Parameters<Parameters<Database["transaction"]>[0]>[0];
+export type Transaction = Parameters<Parameters<Database["transaction"]>[0]>[0];
+/** A database handle or an open transaction. */
+export type Executor = Database | Transaction;
+
+/**
+ * The role tenant-scoped transactions switch to. Row level security applies to
+ * it; see migrations/0002_row_level_security.sql.
+ */
+export const appRole = "zaydemy_app";
 
 function createDrizzle(client: postgres.Sql) {
   return drizzle(client, { schema });

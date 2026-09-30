@@ -1,4 +1,5 @@
-export { useTestDatabase, type TestDatabase, type Transaction } from "./database";
+export type { Transaction } from "../client";
+export { useTestDatabase, type TestDatabase } from "./database";
 export {
   addMember,
   addTeamMember,
