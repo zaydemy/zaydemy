@@ -11,12 +11,14 @@ export default getRequestConfig(async () => {
   ]);
 
   let organizationLocale: string | null | undefined;
+  let organizationTimeZone: string | null | undefined;
   if (session) {
     const memberships = await listMemberships(session.user.id);
     const active =
       memberships.find((m) => m.organizationId === session.session.activeOrganizationId) ??
       memberships[0];
     organizationLocale = active?.defaultLocale;
+    organizationTimeZone = active?.timeZone;
   }
 
   const locale = resolveLocale({
@@ -29,8 +31,8 @@ export default getRequestConfig(async () => {
   return {
     locale,
     messages: await loadMessages(locale),
-    // The user's (or organization's) time zone arrives with profile settings.
-    // A fixed zone keeps server and client rendering identical.
-    timeZone: session?.user.timeZone ?? "UTC",
+    // The user's zone, else the organization's. Always explicit, so server
+    // and client render the same times.
+    timeZone: session?.user.timeZone ?? organizationTimeZone ?? "UTC",
   };
 });

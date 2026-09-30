@@ -2,7 +2,8 @@
   "Metadata": {
     "signIn": "Sign in",
     "setup": "Set up",
-    "home": "Home"
+    "home": "Home",
+    "settings": "Settings"
   },
   "AuthFrame": {
     "closedAccess": "Closed access: accounts are created by your school or instructor.",
@@ -45,6 +46,33 @@
       "expired": "The code has expired. Request a new one.",
       "locked": "Too many attempts. Request a new code.",
       "unexpected": "Something went wrong. Try again."
+    },
+    "alternatives": {
+      "or": "or",
+      "passkey": "Passkey",
+      "passkeyWaiting": "Waiting for your device…",
+      "github": "GitHub",
+      "githubRedirecting": "Redirecting…"
+    },
+    "passkeyErrors": {
+      "notFound": "No passkey for this site was found on this device. Sign in with a code, then save one in Settings.",
+      "failed": "Signing in with a passkey did not work. Use an email code instead."
+    },
+    "githubErrors": {
+      "notLinked": "This GitHub account is not linked to an account here. Sign in with a code, then link GitHub in Settings.",
+      "denied": "GitHub access was not granted. Try again or sign in with a code.",
+      "blocked": "Signing in is disabled for this account. Contact your school or instructor.",
+      "failed": "Signing in with GitHub did not work. Try again or sign in with a code.",
+      "redirectFailed": "Could not reach GitHub. Try again shortly."
+    },
+    "passkeyOffer": {
+      "title": "Sign in with one touch next time",
+      "body": "Save this device and sign in with your fingerprint, face or device PIN instead of waiting for a code. Codes keep working if you lose the device.",
+      "save": "Save this device",
+      "saving": "Waiting for your device…",
+      "skip": "Not now",
+      "note": "If you choose “Not now”, we will not ask again on this device. You can save it any time in Settings.",
+      "failed": "The device could not be saved. You can try again in Settings."
     }
   },
   "Setup": {
@@ -80,7 +108,8 @@
   "Shell": {
     "signOut": "Sign out",
     "organization": "Organization",
-    "switchTo": "Switch to {name}"
+    "switchTo": "Switch to {name}",
+    "settings": "Settings"
   },
   "Home": {
     "greeting": "Hello, {name}",
@@ -96,6 +125,78 @@
   "Language": {
     "en": "English",
     "tr": "Türkçe"
+  },
+  "Settings": {
+    "title": "Settings",
+    "profile": {
+      "title": "Profile",
+      "name": "Name",
+      "language": "Language",
+      "languageAuto": "Automatic (organization or browser)",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Saved.",
+      "invalidName": "Enter a name.",
+      "email": "Email address"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "theme": "Theme",
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "passkeys": {
+      "title": "Passkeys",
+      "count": "{count, plural, one {# device} other {# devices}}",
+      "body": "Sign in with your fingerprint, face or device PIN instead of waiting for a code. Email codes keep working if you lose a device.",
+      "add": "Save this device",
+      "addAnother": "Save another device",
+      "saving": "Waiting for your device…",
+      "rename": "Rename",
+      "renamePrompt": "Name this device",
+      "remove": "Remove",
+      "removeConfirm": "Remove “{name}”? You will no longer be able to sign in with it on that device.",
+      "backedUp": "synced",
+      "unnamed": "Saved device",
+      "added": "Added {date}",
+      "privacy": "Your fingerprint or face never leaves your device; this site only receives a public key. Passkeys are bound to this site's address, so a fake site cannot use them.",
+      "unsupported": "This browser does not support passkeys.",
+      "errors": {
+        "exists": "This device is already saved.",
+        "failed": "The device could not be saved. Try again.",
+        "renameFailed": "The name could not be changed.",
+        "removeFailed": "The passkey could not be removed."
+      }
+    },
+    "github": {
+      "title": "GitHub",
+      "linked": "Linked",
+      "body": "Link your GitHub account to sign in with it. Only read access to your profile is requested.",
+      "link": "Link GitHub account",
+      "redirecting": "Redirecting…",
+      "accountLabel": "GitHub account {id}",
+      "unlink": "Unlink",
+      "unlinkConfirm": "Unlink GitHub? You can still sign in with an email code.",
+      "linkFailed": "Could not reach GitHub. Try again shortly.",
+      "notConfigured": "GitHub sign-in is not set up on this instance."
+    },
+    "sessions": {
+      "title": "Sessions",
+      "count": "{count, plural, one {# open session} other {# open sessions}}",
+      "current": "This device",
+      "signOutOthers": "Sign out other sessions",
+      "signOutOthersConfirm": "Sign out every session except this one?",
+      "revoke": "Sign out",
+      "revokeLabel": "Sign out {device}",
+      "revokeConfirm": "Sign out {device}? It will need to sign in again.",
+      "details": "{ip} · signed in {date}",
+      "unknownIp": "Unknown IP",
+      "unknownDevice": "Unknown device",
+      "stale": "For your security, open sessions are listed only shortly after signing in. Sign out and back in to see and end them.",
+      "failed": "The session could not be ended.",
+      "note": "There are no passwords here: every sign-in uses a one-time code, a passkey or a linked GitHub account. If you see a session you do not recognise, sign it out."
+    }
   },
   "Email": {
     "signInCode": {

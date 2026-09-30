@@ -21,10 +21,16 @@ export interface SignInDependencies {
   appName: string;
 }
 
-// Per address: stops mailbox flooding. Per IP: stops address scanning.
+/*
+ * Per address: stops flooding someone's mailbox (3 codes per 5 minutes).
+ * Per IP: slows down address scanning. It is deliberately generous: a whole
+ * school often shares one public IP, and a class signing in at the start of
+ * a lesson must not lock itself out. Bot protection is the main defence
+ * against scanning when it is enabled.
+ */
 export const signInRateLimits = {
   email: { windowMs: 5 * 60_000, max: 3 },
-  ip: { windowMs: 15 * 60_000, max: 10 },
+  ip: { windowMs: 15 * 60_000, max: 100 },
 } satisfies Record<string, RateLimitRule>;
 
 export type RequestCodeResult =

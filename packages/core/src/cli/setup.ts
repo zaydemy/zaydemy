@@ -2,13 +2,14 @@
 //
 //   node core/dist/setup.mjs --name "Ada Lovelace" --email ada@example.com \
 //     --organization "Example Academy" [--preset individual|academy|school] [--locale en]
+//     [--time-zone Europe/Istanbul]
 //
 // Does the same as the web setup wizard and, like it, only works while no
 // account exists. Operator-facing output, so plain English.
 import { parseArgs } from "node:util";
 import { createDatabase } from "@zaydemy/db";
 import { organizationPresets, type OrganizationPreset } from "@zaydemy/db/schema";
-import { completeSetup } from "../platform/setup";
+import { completeSetup, isTimeZone } from "../platform/setup";
 
 const { values } = parseArgs({
   options: {
@@ -17,6 +18,7 @@ const { values } = parseArgs({
     organization: { type: "string" },
     preset: { type: "string", default: "academy" },
     locale: { type: "string" },
+    "time-zone": { type: "string" },
   },
 });
 
@@ -34,6 +36,10 @@ if (!(organizationPresets as readonly string[]).includes(values.preset!)) {
   fail(`--preset must be one of: ${organizationPresets.join(", ")}.`);
 }
 
+const timeZone = values["time-zone"];
+if (timeZone && !isTimeZone(timeZone))
+  fail("--time-zone must be an IANA time zone, e.g. Europe/Istanbul.");
+
 const { db, close } = createDatabase(url, { max: 1 });
 try {
   const result = await completeSetup(db, {
@@ -42,6 +48,7 @@ try {
     organizationName,
     preset: values.preset as OrganizationPreset,
     locale: values.locale,
+    timeZone,
   });
   if (result.status === "already-set-up") {
     console.error("[setup] This instance is already set up; invite people from the app instead.");

@@ -22,7 +22,8 @@ create the first account (a platform admin) and the first organization:
 ```sh
 docker compose run --rm app node core/dist/setup.mjs \
   --name "Ada Lovelace" --email ada@example.com \
-  --organization "Example Academy" --preset academy --locale en
+  --organization "Example Academy" --preset academy --locale en \
+  --time-zone Europe/Istanbul
 ```
 
 `--preset` is `individual`, `academy` or `school`. The command only works

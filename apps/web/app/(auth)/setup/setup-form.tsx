@@ -3,13 +3,16 @@
 import { ArrowRight, ChevronDown, CircleCheck, TriangleAlert } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { setUp, type SetupState } from "./actions";
 
 const presets = ["individual", "academy", "school"] as const;
 const languages = ["en", "tr"] as const;
+
+const noSubscription = () => () => {};
+const browserTimeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 const fieldClass =
   "h-12 w-full rounded-field border border-line bg-subtle px-3.5 text-[15px] text-body outline-none transition-[border-color,box-shadow,background-color] duration-200 placeholder:text-faint focus:border-body focus:bg-card focus:shadow-[0_0_0_4px_var(--color-subtle-2)]";
@@ -19,6 +22,8 @@ export function SetupForm({ appName }: { appName: string }) {
   const tLanguage = useTranslations("Language");
   const locale = useLocale();
   const [state, action, pending] = useActionState<SetupState, FormData>(setUp, { status: "idle" });
+  // The organization's time zone starts as this browser's; empty on the server.
+  const timeZone = useSyncExternalStore(noSubscription, browserTimeZone, () => "");
 
   if (state.status === "done") {
     return (
@@ -56,6 +61,7 @@ export function SetupForm({ appName }: { appName: string }) {
 
   return (
     <form action={action} className="flex flex-col gap-5">
+      <input type="hidden" name="timeZone" value={timeZone} />
       <div className="flex flex-col gap-2">
         <h1 className="text-[24px] leading-[1.2] font-semibold tracking-[-0.02em] text-balance text-body sm:text-[26px]">
           {t("title", { appName })}

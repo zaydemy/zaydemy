@@ -1,7 +1,8 @@
 /**
- * Better Auth endpoints reachable over HTTP. Everything else answers 404 to
- * browsers and is only callable from server code (`auth.api.*`, which carries
- * no request).
+ * Better Auth endpoints reachable over HTTP: only what a browser must call
+ * itself. Everything else answers 404 to browsers and is only callable from
+ * server code (`auth.api.*`, which carries no request); the app wraps those
+ * in server actions with its own checks.
  *
  * An allowlist, not a denylist: plugins add endpoints on upgrade, and a new
  * one must not become public by default. Two concrete reasons it matters:
@@ -13,26 +14,22 @@
 const exact = new Set([
   "/get-session",
   "/sign-out",
-  "/list-sessions",
-  "/revoke-session",
-  "/revoke-other-sessions",
-  // Social sign-in and account linking (GitHub): the browser follows redirects.
+  // WebAuthn ceremonies run in the browser: the device talks to the page.
+  "/passkey/generate-register-options",
+  "/passkey/verify-registration",
+  "/passkey/generate-authenticate-options",
+  "/passkey/verify-authentication",
+  // OAuth (GitHub): the browser is redirected to the provider and back.
   "/sign-in/social",
   "/link-social",
-  "/list-accounts",
-  "/unlink-account",
   // Ending an impersonation is a click in the banner.
   "/admin/stop-impersonating",
   "/ok",
   "/error",
 ]);
 
-const prefixes = [
-  // WebAuthn ceremonies run in the browser.
-  "/passkey/",
-  // OAuth redirects come back from the provider.
-  "/callback/",
-];
+// OAuth providers redirect back to /callback/<provider>.
+const prefixes = ["/callback/"];
 
 export function isPublicAuthPath(path: string): boolean {
   return exact.has(path) || prefixes.some((prefix) => path.startsWith(prefix));

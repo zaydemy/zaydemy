@@ -16,7 +16,7 @@ export const signInCode = {
 
 export interface AuthDependencies {
   db: Database;
-  config: Pick<ServerConfig, "appName" | "appUrl" | "appSecret">;
+  config: Pick<ServerConfig, "appName" | "appUrl" | "appSecret" | "github">;
   /** Framework integrations, e.g. `nextCookies()` from the web app. */
   plugins?: BetterAuthPlugin[];
 }
@@ -60,6 +60,21 @@ export function createAuth({ db, config, plugins = [] }: AuthDependencies) {
       database: { generateId: "uuid" },
     },
     emailAndPassword: { enabled: false },
+    socialProviders: config.github
+      ? {
+          github: {
+            clientId: config.github.clientId,
+            clientSecret: config.github.clientSecret,
+            // Read-only profile access (Better Auth adds `user:email` to read a
+            // private primary address). Never `repo`: that would be write
+            // access to every private repository.
+            scope: ["read:user"],
+            // A GitHub account never creates a zaydemy account: it signs in
+            // only once its owner linked it from settings.
+            disableSignUp: true,
+          },
+        }
+      : {},
     user: {
       // Exposed on the session so the UI can pick locale and time zone.
       additionalFields: {

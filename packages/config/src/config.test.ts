@@ -91,6 +91,19 @@ describe("loadConfig", () => {
     }
   });
 
+  it("enables GitHub only with both credentials", () => {
+    expect(loadConfig(base).github).toBeNull();
+    expect(
+      loadConfig({ ...base, GITHUB_CLIENT_ID: "id", GITHUB_CLIENT_SECRET: "secret" }).github,
+    ).toEqual({
+      clientId: "id",
+      clientSecret: "secret",
+    });
+    expect(issuesOf({ ...base, GITHUB_CLIENT_ID: "id" })).toEqual([
+      "GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET: set both or neither",
+    ]);
+  });
+
   it("reports malformed values by variable name", () => {
     const issues = issuesOf({
       ...base,
