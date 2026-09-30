@@ -58,4 +58,7 @@ it("keeps tenants apart", () =>
   }));
 ```
 
+Interrupted runs can leave `zaydemy_test_*` databases behind; runs drop those older
+than an hour, and `pnpm --filter @zaydemy/db test:clean` drops them all.
+
 Add `globalSetup: ["@zaydemy/db/testing/global-setup"]` to the package's Vitest config.

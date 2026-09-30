@@ -1,0 +1,27 @@
+{
+  "name": "@zaydemy/core",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@zaydemy/db": "workspace:*",
+    "drizzle-orm": "^0.45.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@zaydemy/eslint-config": "workspace:*",
+    "@zaydemy/tsconfig": "workspace:*",
+    "eslint": "^9.39.5",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.2"
+  }
+}

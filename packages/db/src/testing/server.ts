@@ -44,6 +44,15 @@ export async function dropDatabase(sql: postgres.Sql, name: string): Promise<voi
   await sql`drop database if exists ${sql(name)} with (force)`;
 }
 
+/** Drops the databases cloned from `template` during its run. */
+export async function dropRunDatabases(sql: postgres.Sql, template: string): Promise<void> {
+  const rows = await sql<{ datname: string }[]>`
+    select datname from pg_database
+     where starts_with(datname, ${`${template}_`})
+  `;
+  for (const { datname } of rows) await dropDatabase(sql, datname);
+}
+
 export async function dropStaleDatabases(sql: postgres.Sql): Promise<void> {
   const rows = await sql<{ datname: string }[]>`
     select datname from pg_database where datname like ${`${testDatabasePrefix}%`}
