@@ -61,7 +61,9 @@ jobs:
       - name: Smoke test
         run: |
           curl -fsS localhost:3000/api/health
-          curl -fsS -H 'Accept-Language: tr' localhost:3000/ | grep -q 'lang="tr"'
+          # A fresh install sends every page to the setup wizard, in the browser's language.
+          curl -fsSL -H 'Accept-Language: tr' localhost:3000/ | grep -q 'lang="tr"'
+          test "$(curl -s -o /dev/null -w '%{redirect_url}' localhost:3000/login)" = "http://localhost:3000/setup"
           # Auth endpoints: browser-facing ones answer, server-only ones 404.
           curl -fsS localhost:3000/api/auth/get-session
           test "$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'content-type: application/json' \
@@ -73,6 +75,8 @@ jobs:
           # A second run must refuse.
           ! docker compose run --rm app node core/dist/setup.mjs \
             --name "Again" --email again@example.com --organization "Again"
+          # The wizard is closed for good once an account exists.
+          test "$(curl -s -o /dev/null -w '%{redirect_url}' localhost:3000/setup)" = "http://localhost:3000/login"
       - name: Backup and restore
         run: |
           docker compose exec -T postgres psql -U zaydemy -d zaydemy -c \
