@@ -14,8 +14,12 @@
   },
   "dependencies": {
     "@zaydemy/adapters": "workspace:*",
+    "@zaydemy/auth": "workspace:*",
     "@zaydemy/config": "workspace:*",
+    "@zaydemy/core": "workspace:*",
+    "@zaydemy/db": "workspace:*",
     "@zaydemy/i18n": "workspace:*",
+    "better-auth": "1.7.6",
     "next": "^16.3.7",
     "next-intl": "^4.14.8",
     "react": "^19.3.0",

@@ -15,17 +15,31 @@ import { createdAt, id, oneOf, timestamptz, updatedAt } from "./columns";
  * staff and "enrolled in this class" for students.
  */
 
-export const organization = pgTable("organization", {
-  id: id(),
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
-  logo: text("logo"),
-  metadata: text("metadata"),
-  /** Default locale and IANA time zone for members without a preference. */
-  defaultLocale: text("default_locale"),
-  timeZone: text("time_zone"),
-  createdAt: createdAt(),
-});
+/**
+ * Scale presets chosen at setup. One product, three scales: an individual
+ * instructor never sees organization and role management; an academy puts
+ * instructors, terms and rankings forward; a school expects many classes and
+ * staff roles. The preset only changes defaults and what the UI shows.
+ */
+export const organizationPresets = ["individual", "academy", "school"] as const;
+export type OrganizationPreset = (typeof organizationPresets)[number];
+
+export const organization = pgTable(
+  "organization",
+  {
+    id: id(),
+    name: text("name").notNull(),
+    slug: text("slug").notNull().unique(),
+    logo: text("logo"),
+    metadata: text("metadata"),
+    preset: text("preset").$type<OrganizationPreset>().notNull().default("academy"),
+    /** Default locale and IANA time zone for members without a preference. */
+    defaultLocale: text("default_locale"),
+    timeZone: text("time_zone"),
+    createdAt: createdAt(),
+  },
+  (t) => [check("organization_preset_check", oneOf(t.preset, organizationPresets))],
+);
 
 /**
  * Tenant roles, from most to least privileged:

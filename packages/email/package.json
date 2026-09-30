@@ -1,5 +1,5 @@
 {
-  "name": "@zaydemy/core",
+  "name": "@zaydemy/email",
   "version": "0.0.0",
   "private": true,
   "license": "AGPL-3.0-only",
@@ -10,21 +10,17 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "build": "esbuild src/cli/setup.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/setup.mjs --log-level=warning",
-    "first-run": "tsx src/cli/setup.ts"
+    "test": "vitest run"
   },
   "dependencies": {
-    "@zaydemy/db": "workspace:*",
-    "drizzle-orm": "^0.45.3"
+    "@zaydemy/i18n": "workspace:*",
+    "use-intl": "^4.14.8"
   },
   "devDependencies": {
     "@types/node": "^24",
     "@zaydemy/eslint-config": "workspace:*",
     "@zaydemy/tsconfig": "workspace:*",
-    "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
-    "tsx": "^4.23.15",
     "typescript": "~6.0.3",
     "vitest": "^5.0.2"
   }

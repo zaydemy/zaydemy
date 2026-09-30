@@ -44,9 +44,11 @@ pnpm build
 | ------------------------ | ---------------------------------------------- |
 | `apps/web`               | Next.js application                            |
 | `packages/adapters`      | Email, file storage and bot protection drivers |
+| `packages/auth`          | Better Auth setup and email sign-in flow       |
 | `packages/config`        | Environment validation                         |
 | `packages/core`          | Business logic, tenant-scoped data access      |
 | `packages/db`            | Schema, migrations, test database harness      |
+| `packages/email`         | Translated email templates                     |
 | `packages/i18n`          | Locales, message catalogs, locale resolution   |
 | `packages/tsconfig`      | Shared TypeScript configuration                |
 | `packages/eslint-config` | Shared ESLint configuration                    |

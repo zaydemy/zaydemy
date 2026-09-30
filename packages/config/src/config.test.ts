@@ -27,6 +27,7 @@ describe("loadConfig", () => {
   it("starts in development with only a database", () => {
     const config = loadConfig(base);
     expect(config.environment).toBe("development");
+    expect(config.appName).toBe("zaydemy");
     expect(config.appUrl).toBe("http://localhost:3010");
     expect(config.email.transport).toBe("console");
     expect(config.storage).toMatchObject({

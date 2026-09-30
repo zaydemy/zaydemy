@@ -14,7 +14,7 @@
     "test": "turbo run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "i18n:check": "i18n-check --locales packages/i18n/messages --source en --format next-intl --unused apps/web",
+    "i18n:check": "i18n-check --locales packages/i18n/messages --source en --format next-intl --unused apps/web packages/email/src",
     "db:migrate": "pnpm --filter @zaydemy/db db:migrate",
     "db:generate": "pnpm --filter @zaydemy/db db:generate",
     "db:check": "pnpm --filter @zaydemy/db db:check"
