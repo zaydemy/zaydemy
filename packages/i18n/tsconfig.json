@@ -1,0 +1,4 @@
+{
+  "extends": "@zaydemy/tsconfig/library.json",
+  "include": ["src", "messages"]
+}
