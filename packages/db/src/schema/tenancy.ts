@@ -1,5 +1,14 @@
 import { sql } from "drizzle-orm";
-import { check, index, integer, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import {
+  check,
+  index,
+  integer,
+  pgTable,
+  text,
+  unique,
+  uniqueIndex,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { user } from "./auth";
 import { createdAt, id, oneOf, timestamptz, updatedAt } from "./columns";
 
@@ -138,6 +147,8 @@ export const team = pgTable(
     updatedAt: updatedAt(),
   },
   (t) => [
+    // Lets tenant tables reference a class together with its organization.
+    unique("team_id_organization_key").on(t.id, t.organizationId),
     index("team_organization_idx").on(t.organizationId),
     check("team_kind_check", oneOf(t.kind, teamKinds)),
     check("team_color_check", sql`${t.color} ~ '^#[0-9a-f]{6}$'`),

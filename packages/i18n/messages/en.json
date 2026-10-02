@@ -202,7 +202,8 @@
     "home": "Home",
     "classes": "Classes",
     "people": "People",
-    "main": "Main"
+    "main": "Main",
+    "programs": "Programs"
   },
   "Roles": {
     "owner": "Owner",
@@ -310,6 +311,122 @@
       "invalidClass": "One of the classes no longer exists.",
       "alreadyMember": "This person is already in the organization."
     }
+  },
+  "Programs": {
+    "title": "Programs",
+    "create": "New program",
+    "createTitle": "Create a program",
+    "name": "Title",
+    "namePlaceholder": "HTML Fundamentals",
+    "description": "Description",
+    "descriptionHint": "Shown to students on the program page.",
+    "empty": "No programs yet.",
+    "emptyInstructor": "No programs yet. Owners and administrators create them.",
+    "status": {
+      "draft": "Draft",
+      "published": "Published"
+    },
+    "summary": "{lessons, plural, one {# lesson} other {# lessons}} · {enrollments, plural, =0 {not assigned} one {# assignment} other {# assignments}}",
+    "back": "All programs",
+    "publish": "Publish",
+    "unpublish": "Move to draft",
+    "draftNote": "Draft: students cannot see this program, even when it is assigned to them.",
+    "edit": "Edit details",
+    "slug": "Address",
+    "slugHint": "Used in links: /programs/{slug}",
+    "delete": "Delete program",
+    "deleteConfirm": "Delete “{title}” with all its sections and lessons? This cannot be undone.",
+    "deleteInUse": "This program has {enrollments, plural, =0 {no assignments} one {# assignment} other {# assignments}} and {completions, plural, =0 {no completions} one {# completion} other {# completions}}. Deleting it removes them too. Delete anyway?",
+    "curriculum": {
+      "title": "Curriculum",
+      "addSection": "Add section",
+      "sectionPlaceholder": "Section title",
+      "addLesson": "Add lesson",
+      "lessonPlaceholder": "Lesson title",
+      "emptySection": "No lessons in this section yet.",
+      "empty": "Start by adding a section.",
+      "rename": "Rename",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "deleteSection": "Delete section",
+      "deleteSectionConfirm": "Delete the section “{title}” and its lessons?",
+      "deleteLesson": "Delete lesson",
+      "deleteLessonConfirm": "Delete the lesson “{title}”?",
+      "deleteInUse": "{completions, plural, one {# completion record} other {# completion records}} will be removed with it. Delete anyway?",
+      "unpublished": "Hidden",
+      "hasNote": "Note",
+      "hasVideo": "Video",
+      "minutes": "{minutes} min",
+      "readOnly": "Only owners and administrators edit the curriculum. You can preview lessons and assign this program to your classes."
+    },
+    "assignments": {
+      "title": "Assigned to",
+      "empty": "Not assigned to anyone yet.",
+      "assign": "Assign",
+      "choose": "Choose a class or student",
+      "classes": "Classes",
+      "students": "Students",
+      "mode": {
+        "open": "All lessons open",
+        "selected": "Selected lessons"
+      },
+      "access": "Lesson access",
+      "remove": "Remove",
+      "removeConfirm": "Take this program back from {name}? Their progress is kept and returns if you assign it again.",
+      "prerequisite": "Opens after",
+      "noPrerequisite": "No prerequisite",
+      "alreadyAssigned": "Already assigned to them."
+    },
+    "lesson": {
+      "back": "Back to the program",
+      "title": "Title",
+      "duration": "Duration (minutes)",
+      "video": "Video address",
+      "videoHint": "A link starting with http(s). Classes can have their own video in lesson access.",
+      "published": "Visible to students",
+      "note": "Lesson note",
+      "noteHint": "Markdown: headings, lists, tables, code blocks with ``` and links.",
+      "write": "Write",
+      "preview": "Preview",
+      "previewEmpty": "Nothing to preview yet.",
+      "save": "Save lesson",
+      "saved": "Saved.",
+      "revisions": "Earlier versions",
+      "revisionsEmpty": "Versions appear here each time the note changes.",
+      "revisionBy": "{date} · {author}",
+      "revisionUnknownAuthor": "unknown author",
+      "restore": "Restore",
+      "restoreConfirm": "Restore this version? The current note is kept as a version too.",
+      "readOnly": "Preview. Only owners and administrators edit lessons."
+    },
+    "access": {
+      "title": "Lesson access: {target}",
+      "back": "Back to the program",
+      "mode": "Default for this assignment",
+      "modeOpenHint": "Every lesson is open; lock the exceptions.",
+      "modeSelectedHint": "Every lesson is locked; open the ones you want.",
+      "open": "Open",
+      "locked": "Locked",
+      "default": "Default",
+      "openAll": "Open section",
+      "lockAll": "Lock section",
+      "resetAll": "Reset section",
+      "video": "Video for this class",
+      "videoPlaceholder": "https://…",
+      "videoSave": "Save video",
+      "state": "{unlocked, select, true {Open} other {Locked}}"
+    },
+    "errors": {
+      "invalidTitle": "Enter a title.",
+      "invalidUrl": "Enter an address starting with http:// or https://.",
+      "slugTaken": "Another program already uses this address.",
+      "prerequisite": "{reason, select, self {A program cannot wait for itself.} cycle {That would make the programs wait for each other; neither would open.} other {The prerequisite must be assigned to the same class or student.}}"
+    }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "This page does not exist, or you do not have access to it.",
+    "home": "Go to home"
   },
   "Email": {
     "signInCode": {

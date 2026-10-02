@@ -36,6 +36,20 @@
       "when": 1790770578685,
       "tag": "0004_member_status_team_color",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790952308394,
+      "tag": "0005_curriculum",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790952329160,
+      "tag": "0006_curriculum_rls",
+      "breakpoints": true
     }
   ]
 }
