@@ -428,6 +428,32 @@
     "body": "This page does not exist, or you do not have access to it.",
     "home": "Go to home"
   },
+  "Learn": {
+    "myPrograms": "Your programs",
+    "noPrograms": "No programs have been assigned to you yet.",
+    "progress": "{done} of {total} lessons",
+    "noOpenLessons": "No lessons open yet",
+    "lockedBy": "Opens after you finish {program}",
+    "locked": "Locked",
+    "back": "Home",
+    "backToProgram": "Back to {program}",
+    "preview": "Preview: this is what students see. Every lesson is open for you, and nothing you do here is recorded.",
+    "previewLink": "Student view",
+    "lessonLocked": "Locked",
+    "lessonDone": "Done",
+    "lessonHidden": "Hidden from students",
+    "minutes": "{minutes} min",
+    "emptyProgram": "This program has no lessons yet.",
+    "video": "Lesson video",
+    "watchVideo": "Open the video",
+    "noNote": "This lesson has no note yet.",
+    "markDone": "Mark as done",
+    "markNotDone": "Mark as not done",
+    "saving": "Saving…",
+    "previous": "Previous",
+    "next": "Next",
+    "lessonNav": "Lesson navigation"
+  },
   "Email": {
     "signInCode": {
       "subject": "{code} is your sign-in code for {appName}",

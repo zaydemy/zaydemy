@@ -91,3 +91,4 @@ export {
   type EnrollmentNode,
   type PrerequisiteCheck,
 } from "./curriculum/prerequisite";
+export { toEmbedUrl } from "./curriculum/video";

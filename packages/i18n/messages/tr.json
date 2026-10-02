@@ -428,6 +428,32 @@
     "body": "Bu sayfa yok ya da erişimin yok.",
     "home": "Ana sayfaya git"
   },
+  "Learn": {
+    "myPrograms": "Programların",
+    "noPrograms": "Sana henüz bir program atanmadı.",
+    "progress": "{total} dersten {done} tamamlandı",
+    "noOpenLessons": "Henüz açık ders yok",
+    "lockedBy": "{program} bitince açılır",
+    "locked": "Kilitli",
+    "back": "Ana sayfa",
+    "backToProgram": "{program} programına dön",
+    "preview": "Önizleme: öğrencilerin gördüğü bu. Senin için her ders açık ve burada yaptıkların kaydedilmez.",
+    "previewLink": "Öğrenci görünümü",
+    "lessonLocked": "Kilitli",
+    "lessonDone": "Tamamlandı",
+    "lessonHidden": "Öğrencilerden gizli",
+    "minutes": "{minutes} dk",
+    "emptyProgram": "Bu programda henüz ders yok.",
+    "video": "Ders videosu",
+    "watchVideo": "Videoyu aç",
+    "noNote": "Bu dersin henüz notu yok.",
+    "markDone": "Tamamlandı olarak işaretle",
+    "markNotDone": "Tamamlanmadı olarak işaretle",
+    "saving": "Kaydediliyor…",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "lessonNav": "Ders gezinmesi"
+  },
   "Email": {
     "signInCode": {
       "subject": "{appName} giriş kodun: {code}",
