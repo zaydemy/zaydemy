@@ -284,3 +284,117 @@
     opacity: 0;
   }
 }
+
+/*
+ * Long-form lesson notes (components/lesson-note.tsx). Reading sizes: 15px
+ * body at a relaxed line height; code in mono; nothing heavier than 600.
+ */
+@layer components {
+  .prose-note {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-body);
+    overflow-wrap: anywhere;
+  }
+  .prose-note > :first-child {
+    margin-top: 0;
+  }
+  .prose-note > :last-child {
+    margin-bottom: 0;
+  }
+  .prose-note :is(p, ul, ol, blockquote, pre, table, hr) {
+    margin-block: 1em;
+  }
+  .prose-note h1,
+  .prose-note h2 {
+    margin-block: 1.6em 0.6em;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .prose-note :is(h3, h4, h5, h6) {
+    margin-block: 1.4em 0.5em;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .prose-note ul {
+    list-style: disc;
+    padding-inline-start: 1.4em;
+  }
+  .prose-note ol {
+    list-style: decimal;
+    padding-inline-start: 1.4em;
+  }
+  .prose-note li {
+    margin-block: 0.3em;
+  }
+  .prose-note li::marker {
+    color: var(--color-outline);
+  }
+  .prose-note a {
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-outline);
+    text-underline-offset: 4px;
+  }
+  .prose-note a:hover {
+    text-decoration-color: var(--color-body);
+  }
+  .prose-note strong {
+    font-weight: 500;
+  }
+  .prose-note blockquote {
+    border-inline-start: 2px solid var(--color-outline);
+    padding-inline-start: 1em;
+    color: var(--color-muted);
+  }
+  .prose-note code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    background: var(--color-subtle);
+    padding: 0.1em 0.35em;
+  }
+  .prose-note pre {
+    overflow-x: auto;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-subtle);
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    /* Code reads left to right in every script. */
+    direction: ltr;
+    text-align: left;
+  }
+  .prose-note pre code {
+    border: 0;
+    background: none;
+    padding: 0;
+    font-size: inherit;
+  }
+  .prose-note hr {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
+  .prose-note table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .prose-note :is(th, td) {
+    border: 1px solid var(--color-line);
+    padding: 6px 12px;
+    text-align: start;
+  }
+  .prose-note th {
+    background: var(--color-subtle);
+    font-weight: 500;
+  }
+  .prose-note img {
+    max-width: 100%;
+    border-radius: var(--radius-card);
+  }
+}

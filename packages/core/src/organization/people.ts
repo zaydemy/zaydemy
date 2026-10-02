@@ -4,6 +4,7 @@ import { and, asc, eq, inArray, sql } from "drizzle-orm";
 import type { TenantContext } from "../tenancy/context";
 import { assignableRoles, canManageMember, managesOrganization } from "../tenancy/permissions";
 import { contextOf, withTenant, type TenantTransaction } from "../tenancy/with-tenant";
+import { taughtClassIds, teaches } from "./reach";
 import { forbidden, notFound, ok, type Denied } from "./results";
 
 const { member, team, teamMember, user } = schema;
@@ -22,24 +23,6 @@ export interface PeopleFilter {
   role?: MemberRole;
   status?: MemberStatus;
   classId?: string;
-}
-
-/** Does `userId` teach (is assigned to) the class? */
-async function teaches(tx: TenantTransaction, userId: string, teamId: string): Promise<boolean> {
-  const [row] = await tx
-    .select({ id: teamMember.id })
-    .from(teamMember)
-    .where(and(eq(teamMember.teamId, teamId), eq(teamMember.userId, userId)))
-    .limit(1);
-  return Boolean(row);
-}
-
-async function taughtClassIds(tx: TenantTransaction, userId: string): Promise<string[]> {
-  const rows = await tx
-    .select({ teamId: teamMember.teamId })
-    .from(teamMember)
-    .where(eq(teamMember.userId, userId));
-  return rows.map((row) => row.teamId);
 }
 
 /**

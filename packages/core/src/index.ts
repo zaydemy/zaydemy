@@ -43,3 +43,51 @@ export {
   isStaff,
   managesOrganization,
 } from "./tenancy/permissions";
+export {
+  addLesson,
+  addSection,
+  createProgram,
+  deleteLesson,
+  deleteProgram,
+  deleteSection,
+  getLessonForEditing,
+  getProgramOutline,
+  listPrograms,
+  moveLesson,
+  moveSection,
+  renameSection,
+  restoreLessonNote,
+  setProgramStatus,
+  updateLesson,
+  updateProgram,
+  type LessonPatch,
+  type ProgramOutline,
+  type ProgramSummary,
+} from "./curriculum/authoring";
+export {
+  assignProgram,
+  getEnrollmentAccess,
+  listEnrollments,
+  removeEnrollment,
+  setAccessMode,
+  setLessonAccess,
+  setLessonVideo,
+  setPrerequisite,
+  type EnrollmentLessonState,
+  type EnrollmentRow,
+} from "./curriculum/enrollments";
+export {
+  getLessonForLearner,
+  getProgramForLearner,
+  listMyPrograms,
+  setLessonDone,
+  type LearnerLesson,
+  type LearnerLessonContent,
+  type LearnerProgram,
+  type ProgramProgress,
+} from "./curriculum/learning";
+export {
+  checkPrerequisite,
+  type EnrollmentNode,
+  type PrerequisiteCheck,
+} from "./curriculum/prerequisite";

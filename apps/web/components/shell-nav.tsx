@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
- * Primary navigation. Classes and People are staff pages; students see their
- * classes on the home page.
+ * Primary navigation. Programs, Classes and People are staff pages; students
+ * reach their programs and classes from the home page.
  */
 export function ShellNav({ staff }: { staff: boolean }) {
   const t = useTranslations("Nav");
@@ -15,6 +15,7 @@ export function ShellNav({ staff }: { staff: boolean }) {
     { href: "/", label: t("home") },
     ...(staff
       ? [
+          { href: "/programs", label: t("programs") },
           { href: "/classes", label: t("classes") },
           { href: "/people", label: t("people") },
         ]

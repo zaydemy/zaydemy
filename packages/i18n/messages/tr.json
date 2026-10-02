@@ -202,7 +202,8 @@
     "home": "Ana sayfa",
     "classes": "Sınıflar",
     "people": "Kişiler",
-    "main": "Ana menü"
+    "main": "Ana menü",
+    "programs": "Programlar"
   },
   "Roles": {
     "owner": "Sahip",
@@ -310,6 +311,122 @@
       "invalidClass": "Sınıflardan biri artık yok.",
       "alreadyMember": "Bu kişi zaten kurumda."
     }
+  },
+  "Programs": {
+    "title": "Programlar",
+    "create": "Yeni program",
+    "createTitle": "Program oluştur",
+    "name": "Başlık",
+    "namePlaceholder": "HTML Temelleri",
+    "description": "Açıklama",
+    "descriptionHint": "Öğrencilere program sayfasında gösterilir.",
+    "empty": "Henüz program yok.",
+    "emptyInstructor": "Henüz program yok. Programları sahipler ve yöneticiler oluşturur.",
+    "status": {
+      "draft": "Taslak",
+      "published": "Yayında"
+    },
+    "summary": "{lessons, plural, one {# ders} other {# ders}} · {enrollments, plural, =0 {atanmadı} one {# atama} other {# atama}}",
+    "back": "Tüm programlar",
+    "publish": "Yayınla",
+    "unpublish": "Taslağa çek",
+    "draftNote": "Taslak: atanmış olsa bile öğrenciler bu programı göremez.",
+    "edit": "Bilgileri düzenle",
+    "slug": "Adres",
+    "slugHint": "Bağlantılarda kullanılır: /programs/{slug}",
+    "delete": "Programı sil",
+    "deleteConfirm": "“{title}” bütün bölüm ve dersleriyle silinsin mi? Bu geri alınamaz.",
+    "deleteInUse": "Bu programın {enrollments, plural, =0 {ataması yok} one {# ataması} other {# ataması}} ve {completions, plural, =0 {tamamlama kaydı yok} one {# tamamlama kaydı} other {# tamamlama kaydı}} var. Silersen onlar da gider. Yine de silinsin mi?",
+    "curriculum": {
+      "title": "Müfredat",
+      "addSection": "Bölüm ekle",
+      "sectionPlaceholder": "Bölüm başlığı",
+      "addLesson": "Ders ekle",
+      "lessonPlaceholder": "Ders başlığı",
+      "emptySection": "Bu bölümde henüz ders yok.",
+      "empty": "Bir bölüm ekleyerek başla.",
+      "rename": "Yeniden adlandır",
+      "moveUp": "Yukarı taşı",
+      "moveDown": "Aşağı taşı",
+      "deleteSection": "Bölümü sil",
+      "deleteSectionConfirm": "“{title}” bölümü dersleriyle birlikte silinsin mi?",
+      "deleteLesson": "Dersi sil",
+      "deleteLessonConfirm": "“{title}” dersi silinsin mi?",
+      "deleteInUse": "{completions, plural, one {# tamamlama kaydı} other {# tamamlama kaydı}} da silinecek. Yine de silinsin mi?",
+      "unpublished": "Gizli",
+      "hasNote": "Not",
+      "hasVideo": "Video",
+      "minutes": "{minutes} dk",
+      "readOnly": "Müfredatı yalnız sahipler ve yöneticiler düzenler. Dersleri önizleyebilir ve bu programı sınıflarına atayabilirsin."
+    },
+    "assignments": {
+      "title": "Atananlar",
+      "empty": "Henüz kimseye atanmadı.",
+      "assign": "Ata",
+      "choose": "Sınıf ya da öğrenci seç",
+      "classes": "Sınıflar",
+      "students": "Öğrenciler",
+      "mode": {
+        "open": "Tüm dersler açık",
+        "selected": "Seçili dersler"
+      },
+      "access": "Ders erişimi",
+      "remove": "Kaldır",
+      "removeConfirm": "Bu program {name} üzerinden geri alınsın mı? İlerlemeleri saklanır ve yeniden atarsan geri gelir.",
+      "prerequisite": "Şundan sonra açılır",
+      "noPrerequisite": "Ön koşul yok",
+      "alreadyAssigned": "Zaten atanmış."
+    },
+    "lesson": {
+      "back": "Programa dön",
+      "title": "Başlık",
+      "duration": "Süre (dakika)",
+      "video": "Video adresi",
+      "videoHint": "http(s) ile başlayan bir bağlantı. Sınıflara özel video, ders erişiminden verilebilir.",
+      "published": "Öğrencilere görünür",
+      "note": "Ders notu",
+      "noteHint": "Markdown: başlıklar, listeler, tablolar, ``` ile kod blokları ve bağlantılar.",
+      "write": "Yaz",
+      "preview": "Önizleme",
+      "previewEmpty": "Önizlenecek bir şey yok.",
+      "save": "Dersi kaydet",
+      "saved": "Kaydedildi.",
+      "revisions": "Önceki sürümler",
+      "revisionsEmpty": "Not her değiştiğinde önceki hâli burada görünür.",
+      "revisionBy": "{date} · {author}",
+      "revisionUnknownAuthor": "yazarı bilinmiyor",
+      "restore": "Geri yükle",
+      "restoreConfirm": "Bu sürüme dönülsün mü? Şimdiki not da bir sürüm olarak saklanır.",
+      "readOnly": "Önizleme. Dersleri yalnız sahipler ve yöneticiler düzenler."
+    },
+    "access": {
+      "title": "Ders erişimi: {target}",
+      "back": "Programa dön",
+      "mode": "Bu atamanın varsayılanı",
+      "modeOpenHint": "Bütün dersler açık; istisnaları kilitle.",
+      "modeSelectedHint": "Bütün dersler kilitli; istediklerini aç.",
+      "open": "Açık",
+      "locked": "Kilitli",
+      "default": "Varsayılan",
+      "openAll": "Bölümü aç",
+      "lockAll": "Bölümü kilitle",
+      "resetAll": "Bölümü sıfırla",
+      "video": "Bu sınıfa özel video",
+      "videoPlaceholder": "https://…",
+      "videoSave": "Videoyu kaydet",
+      "state": "{unlocked, select, true {Açık} other {Kilitli}}"
+    },
+    "errors": {
+      "invalidTitle": "Bir başlık gir.",
+      "invalidUrl": "http:// ya da https:// ile başlayan bir adres gir.",
+      "slugTaken": "Bu adresi başka bir program kullanıyor.",
+      "prerequisite": "{reason, select, self {Bir program kendini bekleyemez.} cycle {Bu kural programları birbirine bekletirdi; hiçbiri açılmazdı.} other {Ön koşul aynı sınıfa ya da öğrenciye atanmış olmalı.}}"
+    }
+  },
+  "NotFound": {
+    "title": "Sayfa bulunamadı",
+    "body": "Bu sayfa yok ya da erişimin yok.",
+    "home": "Ana sayfaya git"
   },
   "Email": {
     "signInCode": {

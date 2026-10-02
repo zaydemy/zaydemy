@@ -12,7 +12,21 @@ import { describe, expect, it } from "vitest";
 
 const database = useTestDatabase();
 
-const tenantTables = ["invitation", "member", "organization", "team", "team_member", "user"];
+const tenantTables = [
+  "enrollment",
+  "enrollment_lesson",
+  "invitation",
+  "lesson",
+  "lesson_note_revision",
+  "lesson_progress",
+  "member",
+  "organization",
+  "program",
+  "section",
+  "team",
+  "team_member",
+  "user",
+];
 
 describe("database catalog", () => {
   it("protects every table the app role can access with row level security", async () => {
