@@ -1,11 +1,16 @@
 import {
+  isStaff,
   listAccessibleClasses,
+  listMyPrograms,
   resolveTenantContext,
   seesAllClasses,
   withTenant,
 } from "@zaydemy/core";
+import { Lock } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { ProgressBar } from "@/components/progress-bar";
 import { getDb } from "@/lib/server/db";
 import { listMemberships, requireSession } from "@/lib/server/session";
 
@@ -41,7 +46,13 @@ export default async function HomePage() {
     userId: session.user.id,
     organizationId: active.organizationId,
   });
-  const classes = await withTenant(db, context, (tx) => listAccessibleClasses(tx));
+  const learner = !isStaff(context.role);
+  const { classes, programs } = await withTenant(db, context, async (tx) => ({
+    classes: await listAccessibleClasses(tx),
+    // Staff manage programs under Programs; this list is the learner's own.
+    programs: learner ? await listMyPrograms(tx) : [],
+  }));
+  const tLearn = await getTranslations("Learn");
 
   return (
     <div className="flex flex-col gap-8">
@@ -53,6 +64,75 @@ export default async function HomePage() {
           {t("roleIn", { role: context.role, organization: active.name })}
         </p>
       </div>
+
+      {learner ? (
+        <section className="flex flex-col gap-3">
+          <h2 className="text-[15px] font-medium">{tLearn("myPrograms")}</h2>
+          {programs.length === 0 ? (
+            <p className="rounded-card border border-dashed border-line px-4 py-8 text-center text-[14px] text-muted">
+              {tLearn("noPrograms")}
+            </p>
+          ) : (
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {programs.map((program) => {
+                const card = (
+                  <>
+                    <span className="flex items-center gap-2">
+                      <span className="min-w-0 flex-1 truncate text-[15px] font-medium">
+                        {program.title}
+                      </span>
+                      {program.locked ? (
+                        <Lock size={15} strokeWidth={1.75} className="flex-none text-faint" />
+                      ) : null}
+                    </span>
+                    {program.description ? (
+                      <span className="line-clamp-2 text-[13px] leading-relaxed text-muted">
+                        {program.description}
+                      </span>
+                    ) : null}
+                    {program.locked ? (
+                      <span className="text-[12.5px] text-muted">
+                        {program.lockedBy
+                          ? tLearn("lockedBy", { program: program.lockedBy })
+                          : tLearn("locked")}
+                      </span>
+                    ) : (
+                      <span className="mt-auto flex flex-col gap-1.5 pt-1">
+                        <ProgressBar
+                          done={program.doneLessons}
+                          total={program.totalLessons}
+                          label={tLearn("progress", {
+                            done: program.doneLessons,
+                            total: program.totalLessons,
+                          })}
+                        />
+                        <span className="text-[12px] text-muted tabular-nums">
+                          {program.totalLessons > 0
+                            ? tLearn("progress", {
+                                done: program.doneLessons,
+                                total: program.totalLessons,
+                              })
+                            : tLearn("noOpenLessons")}
+                        </span>
+                      </span>
+                    )}
+                  </>
+                );
+                return (
+                  <li key={program.id}>
+                    <Link
+                      href={`/learn/${program.slug}`}
+                      className="flex h-full flex-col gap-2 rounded-card border border-line bg-card p-4 shadow-card transition-colors hover:border-outline"
+                    >
+                      {card}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      ) : null}
 
       <section className="rounded-card border border-line bg-card shadow-card">
         <h2 className="border-b border-line px-4 py-3 text-[15px] font-medium">

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@better-auth/passkey": "1.7.6",
+    "@shikijs/rehype": "^4.5.0",
     "@zaydemy/adapters": "workspace:*",
     "@zaydemy/auth": "workspace:*",
     "@zaydemy/config": "workspace:*",
@@ -35,6 +36,7 @@
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
+    "shiki": "^4.5.0",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {

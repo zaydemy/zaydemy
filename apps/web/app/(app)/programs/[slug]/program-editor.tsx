@@ -2,7 +2,17 @@
 
 import type { EnrollmentRow, ProgramOutline } from "@zaydemy/core";
 import type { AccessMode } from "@zaydemy/db/schema";
-import { ArrowDown, ArrowLeft, ArrowUp, FileText, Pencil, Plus, Trash2, Video } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowUp,
+  Eye,
+  FileText,
+  Pencil,
+  Plus,
+  Trash2,
+  Video,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -59,6 +69,7 @@ export function ProgramEditor({
   canAuthor: boolean;
 }) {
   const t = useTranslations("Programs");
+  const tLearn = useTranslations("Learn");
   const describe = useCurriculumError();
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -120,6 +131,13 @@ export function ProgramEditor({
             <p className="mt-1.5 text-[14px] text-muted">{program.description}</p>
           ) : null}
         </div>
+        <Link
+          href={`/learn/${program.slug}`}
+          className="flex h-8 items-center gap-1.5 rounded-[10px] border border-line bg-card px-3 text-[13px] font-medium shadow-card hover:bg-subtle"
+        >
+          <Eye size={14} strokeWidth={1.75} />
+          {tLearn("previewLink")}
+        </Link>
         {canAuthor ? (
           <div className="flex flex-wrap gap-2">
             <Button tone="secondary" size="sm" onClick={() => setEditing(true)}>

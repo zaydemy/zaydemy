@@ -398,3 +398,11 @@
     border-radius: var(--radius-card);
   }
 }
+
+/* Highlighted code in lesson notes: shiki emits both themes as variables. */
+.prose-note .shiki span {
+  color: var(--shiki-light);
+}
+.dark .prose-note .shiki span {
+  color: var(--shiki-dark);
+}
